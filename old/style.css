@@ -1,0 +1,396 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  position: relative;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  scroll-snap-type: mandatory;
+  scroll-behavior: smooth;
+}
+
+/* header section */
+.header {
+  height: 30rem;
+  width: 100vw;
+  /* background-color: #4484ce;
+   */
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    142deg,
+    rgba(2, 0, 36, 0.8) 0%,
+    rgba(9, 9, 121, 0.8) 40%,
+    rgba(0, 212, 255, 0.8) 100%
+  );
+}
+.main-nav {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: 600;
+  padding: 1rem 2rem;
+}
+.nav-text {
+  margin-top: 1.5rem;
+  font-size: 30px;
+  letter-spacing: 1.8px;
+}
+.header-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  flex-direction: column;
+  text-align: center;
+  color: #fff;
+}
+.header-text-box {
+  width: 50%;
+}
+.header-text {
+  margin-bottom: 3rem;
+  line-height: 1.2;
+}
+
+.btn:link,
+.btn:visited {
+  padding: 1rem 1.5rem;
+  background-color: #fff;
+  border: none;
+  border-radius: 3px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  transition: all 0.6s;
+  margin-bottom: 1rem;
+}
+
+.btn:hover,
+.btn:active {
+  cursor: pointer;
+  /* background-color: #305c90;
+   */
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    71deg,
+    rgba(2, 0, 36, 0.4) 0%,
+    rgba(9, 9, 121, 0.4) 40%,
+    rgba(0, 212, 255, 0.4) 100%
+  );
+  color: #fff;
+  transition: all 0.3s;
+}
+
+/* section-nav */
+.section-nav {
+  margin: 2rem auto;
+  overflow: hidden;
+}
+.section-nav-list {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.section-nav-item,
+.section-nav-item:link {
+  color: #333;
+  font-size: 15px;
+  text-transform: uppercase;
+  border: 1px solid #4484ce;
+  text-decoration: none;
+  list-style: none;
+  background-color: #fff;
+  padding: 0.5rem 2.5rem;
+  border-radius: 3px;
+  transition: all 0.5s;
+}
+
+.section-nav-item:hover,
+.section-nav-item:active {
+  background-color: #4484ce;
+
+  color: #fff;
+}
+
+/* GENERAL STYLES */
+.section {
+  color: #222;
+  text-align: center;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.section-header {
+  font-weight: 400;
+  letter-spacing: 1.04px;
+  font-size: x-large;
+  padding-top: 3rem;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+}
+.section-box {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  gap: 45px;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.item-header {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+.item-text {
+  font-size: 1rem;
+  font-weight: 300;
+  color: #555;
+  line-height: 1.5;
+}
+.section-header-link:link,
+.section-header-link:visited {
+  text-decoration: none;
+  color: #3d77b9;
+}
+.section-header-link:hover {
+  color: orange;
+}
+
+/* sections */
+.section-tools,
+.section-css,
+.section-fonts,
+.section-images,
+.section-design {
+  background-color: #ecf3fa;
+}
+.section-html,
+.section-js,
+.section-colors,
+.section-icons {
+  background-color: #fff;
+}
+
+.footer {
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100px;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    142deg,
+    rgba(2, 0, 36, 0.8) 0%,
+    rgba(9, 9, 121, 0.8) 40%,
+    rgba(0, 212, 255, 0.8) 100%
+  );
+}
+.footer p {
+  /* position: absolute; */
+
+  text-align: center;
+}
+.btn-owner,
+.btn-owner:link {
+  text-decoration: none;
+  color: #fff;
+}
+.btn-owner:hover {
+  color: #ccc;
+}
+
+/* GRID STYLE */
+.grid-col-2 {
+  grid-template-columns: repeat(2, 400px);
+}
+.grid-col-3 {
+  grid-template-columns: repeat(3, 350px);
+}
+/* TO TOP BUTTON */
+#myBtn {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    142deg,
+    rgba(2, 0, 36, 0.8) 0%,
+    rgba(9, 9, 121, 0.8) 40%,
+    rgba(0, 212, 255, 0.8) 100%
+  );
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 18px; /* Increase font size */
+}
+
+#myBtn:hover {
+  background-color: #555; /* Add a dark-grey background on hover */
+}
+
+/* For tablets (max-width: 1024px) */
+/* For tablets (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .nav-text {
+    font-size: 1.5rem;
+  }
+  .grid-col-2 {
+    grid-template-columns: repeat(2, 400px);
+  }
+  .grid-col-3 {
+    grid-template-columns: repeat(2, 350px);
+  }
+  .section-nav-list {
+    flex-wrap: wrap; /* Allow items to wrap to a new line */
+  }
+
+  .section-nav-item,
+  .section-nav-item:link {
+    font-size: 16px; /* Decrease font size */
+    padding: 0.4rem 1.1rem; /* Decrease padding */
+  }
+  .btn:link,
+  .btn:visited {
+    padding: 0.8rem 1.3rem; /* Adjust padding for tablets */
+  }
+  .header {
+    height: 25rem;
+  }
+  .header-text-box {
+    width: 85%;
+  }
+  .footer {
+    height: 70px;
+  }
+  /* Add any other tablet-specific styles here */
+}
+
+/* For phones (max-width: 768px) */
+@media (max-width: 768px) {
+  .nav-text {
+    font-size: 1.2rem;
+  }
+  .grid-col-2 {
+    grid-template-columns: repeat(1, 350px);
+  }
+  .grid-col-3 {
+    grid-template-columns: repeat(1, 300px);
+  }
+  .icon {
+    margin: 0 auto; /* Center horizontally */
+    display: block; /* Remove any inherited display property */
+    margin-bottom: 4px;
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Adjust other styles for phones here */
+  .header {
+    height: 21rem; /* Change height to auto for better responsiveness */
+    padding: 1rem;
+    overflow: hidden; /* Add this to prevent the header from overflowing */
+  }
+  .header-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  .section-header {
+    font-weight: 400;
+    letter-spacing: 1.04px;
+    font-size: 1rem;
+    padding-top: 2rem;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .section-header-link {
+    font-size: 1rem;
+  }
+  .item-header {
+    text-align: center;
+  }
+  .item-text {
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: #555;
+    line-height: 1.3;
+  }
+  .section-nav-list {
+    flex-wrap: wrap; /* Allow items to wrap to a new line */
+  }
+
+  .section-nav-item,
+  .section-nav-item:link {
+    font-size: 12px; /* Decrease font size */
+    padding: 0.3rem 1rem; /* Decrease padding */
+  }
+  .btn:link,
+  .btn:visited {
+    padding: 0.6rem 1rem; /* Adjust padding for phones */
+  }
+  .header-text-box {
+    width: 100%;
+  }
+  .main-nav {
+    padding: 0.8rem 0.5rem;
+  }
+  .nav-text {
+    margin-top: 1rem;
+    font-size: 26px;
+    letter-spacing: 1.4px;
+  }
+  .btn-box {
+    margin-bottom: 1rem;
+  }
+  .footer {
+    height: 45px;
+  }
+  /* You can add more adjustments for smaller screens as needed */
+}
+/* Example animation for a section */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-header {
+  animation: fadeInUp 1s ease; /* Apply the animation to the header */
+}
+/* Example text animation for section headers */
+@keyframes textFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-header {
+  animation: textFadeIn 2s ease; /* Apply the animation to section headers */
+}
+/* Example button ripple effect */
