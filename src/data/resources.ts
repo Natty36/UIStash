@@ -13,6 +13,7 @@ export const categories = [
   "UI Components & Blocks",
   "Animations & 3D",
   "Design & Prototyping",
+  "Frontend Skills for Agents",
   "Typography & Fonts",
   "Colors & Gradients",
   "Icons",
@@ -51,9 +52,15 @@ export const resourcesData: Resource[] = [
   // --- Design & Prototyping ---
   { id: 106, title: "Relume Library", desc: "The world's largest Webflow and Figma component library.", url: "https://library.relume.io/", category: "Design & Prototyping", tags: ["Webflow", "Figma", "Wireframe"] },
   { id: 15, title: "Figma", desc: "The collaborative interface design tool.", url: "https://figma.com", category: "Design & Prototyping", tags: ["Design", "Prototyping"] },
+  { id: 148, title: "Framer", desc: "Design and publish responsive, animated websites visually with zero code.", url: "https://www.framer.com/", category: "Design & Prototyping", tags: ["Design", "Website Builder", "Interactive"], trending: true },
   { id: 126, title: "Penpot", desc: "Open Source design and prototyping platform.", url: "https://penpot.app/", category: "Design & Prototyping", tags: ["Open Source", "Design"] },
-  { id: 127, title: "Stitch", desc: "The rapid design tool for modern product teams.", url: "https://stitch.design/", category: "Design & Prototyping", tags: ["Design", "UI"] },
-  { id: 109, title: "Locofy.ai", desc: "Convert Figma designs to React, Next.js, HTML, and more.", url: "https://www.locofy.ai/", category: "Design & Prototyping", tags: ["AI", "Code Generation"] },
+  { id: 127, title: "Stitch by Google", desc: "A framework to build rich, connected user experiences across platforms.", url: "https://stitch.withgoogle.com/", category: "Design & Prototyping", tags: ["Design", "UI", "Google"] },
+  { id: 151, title: "Claude Design", desc: "Generative UI design and rapid interactive artifact prototyping with Claude.", url: "https://claude.ai/", category: "Design & Prototyping", tags: ["AI", "Design", "Prototyping"], trending: true, newRelease: true },
+  { id: 152, title: "OpenDesign", desc: "Open-source developer platform for Figma/sketch file inspection and design data APIs.", url: "https://opendesign.dev/", category: "Design & Prototyping", tags: ["Open Source", "Design", "API"], newRelease: true },
+
+  // --- Frontend Skills for Agents ---
+  { id: 149, title: "UI/UX Pro Max Skill", desc: "Design intelligence AI skill for agents to generate complete design systems and prevent bad UI.", url: "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill", category: "Frontend Skills for Agents", tags: ["AI Agents", "Design System", "Skills"], trending: true, newRelease: true },
+  { id: 150, title: "Impeccable", desc: "Design language, commands, and detector rules giving AI coding agents frontend taste.", url: "https://github.com/pbakaus/impeccable", category: "Frontend Skills for Agents", tags: ["AI Agents", "Frontend", "Skills"], trending: true, newRelease: true },
 
   // --- Typography & Fonts ---
   { id: 52, title: "Google Fonts", desc: "The #1 resource for free and easy-to-use webfonts.", url: "https://fonts.google.com/", category: "Typography & Fonts", tags: ["Fonts", "Free"] },
