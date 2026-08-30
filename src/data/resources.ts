@@ -65,6 +65,8 @@ export const resourcesData: Resource[] = [
   // --- Typography & Fonts ---
   { id: 52, title: "Google Fonts", desc: "The #1 resource for free and easy-to-use webfonts.", url: "https://fonts.google.com/", category: "Typography & Fonts", tags: ["Fonts", "Free"] },
   { id: 53, title: "Fontsquirrel", desc: "The best, 100% free fonts for commercial use.", url: "https://www.fontsquirrel.com/", category: "Typography & Fonts", tags: ["Fonts", "Free"] },
+  { id: 153, title: "Fontpair", desc: "Free font pairings, typography combinations, and design inspiration for creators.", url: "https://www.fontpair.co/", category: "Typography & Fonts", tags: ["Fonts", "Typography", "Pairings"], trending: true },
+  { id: 154, title: "UNCUT.wtf", desc: "A curated contemporary catalogue of open-source and free typefaces.", url: "https://uncut.wtf/", category: "Typography & Fonts", tags: ["Fonts", "Typefaces", "Contemporary"], trending: true, newRelease: true },
 
   // --- Colors & Gradients ---
   { id: 57, title: "Open Color", desc: "An open-source color scheme optimized for UI.", url: "https://yeun.github.io/open-color/", category: "Colors & Gradients", tags: ["Colors", "UI"] },
