@@ -7,6 +7,7 @@ export type Resource = {
   tags: string[];
   trending?: boolean;
   newRelease?: boolean;
+  chefsChoice?: boolean;
 };
 
 export const categories = [
@@ -24,21 +25,21 @@ export const categories = [
 
 export const resourcesData: Resource[] = [
   // --- UI Components & Blocks ---
-  { id: 1, title: "shadcn/ui", desc: "Beautifully designed components that you can copy and paste into your apps.", url: "https://ui.shadcn.com", category: "UI Components & Blocks", tags: ["UI", "React", "Tailwind"], trending: true },
+  { id: 1, title: "shadcn/ui", desc: "Beautifully designed components that you can copy and paste into your apps.", url: "https://ui.shadcn.com", category: "UI Components & Blocks", tags: ["UI", "React", "Tailwind"], trending: true, chefsChoice: true },
   { id: 134, title: "OriginKit", desc: "Beautiful, accessible components crafted with Tailwind CSS and Radix UI.", url: "https://www.originkit.dev/", category: "UI Components & Blocks", tags: ["Tailwind", "Radix", "Components"], newRelease: true },
-  { id: 32, title: "Magic UI", desc: "UI Library for Design Engineers. Animated React components.", url: "https://magicui.design/", category: "UI Components & Blocks", tags: ["UI", "Animation", "React"], trending: true },
+  { id: 32, title: "Magic UI", desc: "UI Library for Design Engineers. Animated React components.", url: "https://magicui.design/", category: "UI Components & Blocks", tags: ["UI", "Animation", "React"], trending: true, chefsChoice: true },
   { id: 131, title: "React Bits", desc: "An open source collection of animated, interactive & fully customizable React components.", url: "https://www.reactbits.dev/", category: "UI Components & Blocks", tags: ["React", "Animation", "Tailwind"], trending: true, newRelease: true },
   { id: 133, title: "Hover.dev", desc: "Animated Tailwind CSS & Framer Motion components ready to copy and paste.", url: "https://www.hover.dev/", category: "UI Components & Blocks", tags: ["Animation", "Tailwind", "Framer Motion"], trending: true },
   { id: 135, title: "21st.dev", desc: "The npm for Design Engineers. Discover and share copy-paste UI components.", url: "https://21st.dev/", category: "UI Components & Blocks", tags: ["Marketplace", "React", "Tailwind"], trending: true, newRelease: true },
   { id: 132, title: "DaisyUI", desc: "The most popular, free and open-source Tailwind CSS component library.", url: "https://daisyui.com/", category: "UI Components & Blocks", tags: ["Tailwind", "CSS", "Components"] },
   { id: 139, title: "Cult UI", desc: "Curated components and interactive elements for modern design engineers.", url: "https://www.cult-ui.com/", category: "UI Components & Blocks", tags: ["React", "Tailwind", "Motion"] },
-  { id: 33, title: "Aceternity UI", desc: "Copy paste the most trending components and use them in your websites.", url: "https://ui.aceternity.com/", category: "UI Components & Blocks", tags: ["UI", "Tailwind", "Components"], trending: true },
+  { id: 33, title: "Aceternity UI", desc: "Copy paste the most trending components and use them in your websites.", url: "https://ui.aceternity.com/", category: "UI Components & Blocks", tags: ["UI", "Tailwind", "Components"], trending: true, chefsChoice: true },
   { id: 138, title: "Motion Primitives", desc: "Advanced interactive UI components crafted with Framer Motion and Tailwind.", url: "https://motion-primitives.com/", category: "UI Components & Blocks", tags: ["Motion", "React", "Tailwind"], trending: true, newRelease: true },
   { id: 140, title: "Animate UI", desc: "A collection of animated React components, buttons, and micro-interactions.", url: "https://animate-ui.com/", category: "UI Components & Blocks", tags: ["Animation", "React", "Tailwind"] },
 
   // --- Animations & 3D ---
-  { id: 3, title: "Framer Motion", desc: "Production-ready declarative animations for React.", url: "https://framer.com/motion", category: "Animations & 3D", tags: ["Animation", "React"] },
-  { id: 141, title: "Lenis", desc: "Smooth scroll library built for modern luxury & creative web builds.", url: "https://lenis.darkroom.engineering/", category: "Animations & 3D", tags: ["Scroll", "Smooth Scroll", "Creative"], trending: true },
+  { id: 3, title: "Framer Motion", desc: "Production-ready declarative animations for React.", url: "https://framer.com/motion", category: "Animations & 3D", tags: ["Animation", "React"], chefsChoice: true },
+  { id: 141, title: "Lenis", desc: "Smooth scroll library built for modern luxury & creative web builds.", url: "https://lenis.darkroom.engineering/", category: "Animations & 3D", tags: ["Scroll", "Smooth Scroll", "Creative"], trending: true, chefsChoice: true },
   { id: 145, title: "GSAP", desc: "Professional-grade JavaScript animation engine for high-performance motion.", url: "https://gsap.com/", category: "Animations & 3D", tags: ["GSAP", "Animation", "Performance"], trending: true },
   { id: 142, title: "Anime.js", desc: "Lightweight JavaScript animation engine with a simple, powerful API.", url: "https://animejs.com/", category: "Animations & 3D", tags: ["Animation", "JavaScript", "SVG"] },
   { id: 143, title: "Three.js", desc: "The standard JavaScript 3D library for WebGL rendering on the web.", url: "https://threejs.org/", category: "Animations & 3D", tags: ["3D", "WebGL", "JavaScript"], trending: true },
@@ -50,17 +51,19 @@ export const resourcesData: Resource[] = [
   { id: 147, title: "Poly Pizza", desc: "Free low-poly 3D models for games, creative websites, and interactive apps.", url: "https://poly.pizza/", category: "Animations & 3D", tags: ["3D", "Models", "Low-Poly"] },
 
   // --- Design & Prototyping ---
-  { id: 15, title: "Figma", desc: "The collaborative interface design tool.", url: "https://figma.com", category: "Design & Prototyping", tags: ["Design", "Prototyping"] },
+  { id: 15, title: "Figma", desc: "The collaborative interface design tool.", url: "https://figma.com", category: "Design & Prototyping", tags: ["Design", "Prototyping"], chefsChoice: true },
   { id: 148, title: "Framer", desc: "Design and publish responsive, animated websites visually with zero code.", url: "https://www.framer.com/", category: "Design & Prototyping", tags: ["Design", "Website Builder", "Interactive"], trending: true },
   { id: 106, title: "Relume Library", desc: "The world's largest Webflow and Figma component library.", url: "https://library.relume.io/", category: "Design & Prototyping", tags: ["Webflow", "Figma", "Wireframe"] },
   { id: 127, title: "Stitch by Google", desc: "A framework to build rich, connected user experiences across platforms.", url: "https://stitch.withgoogle.com/", category: "Design & Prototyping", tags: ["Design", "UI", "Google"] },
+  { id: 178, title: "Refero Styles", desc: "Curated real-world design styles, patterns, and visual references from top digital products.", url: "https://styles.refero.design/", category: "Design & Prototyping", tags: ["Inspiration", "Design", "UI Patterns"], trending: true },
   { id: 151, title: "Claude Design", desc: "Generative UI design and rapid interactive artifact prototyping with Claude.", url: "https://claude.ai/", category: "Design & Prototyping", tags: ["AI", "Design", "Prototyping"], trending: true, newRelease: true },
   { id: 126, title: "Penpot", desc: "Open Source design and prototyping platform.", url: "https://penpot.app/", category: "Design & Prototyping", tags: ["Open Source", "Design"] },
   { id: 152, title: "OpenDesign", desc: "Open-source developer platform for Figma/sketch file inspection and design data APIs.", url: "https://opendesign.dev/", category: "Design & Prototyping", tags: ["Open Source", "Design", "API"], newRelease: true },
 
   // --- Frontend Skills for Agents ---
-  { id: 149, title: "UI/UX Pro Max Skill", desc: "Design intelligence AI skill for agents to generate complete design systems and prevent bad UI.", url: "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill", category: "Frontend Skills for Agents", tags: ["AI Agents", "Design System", "Skills"], trending: true, newRelease: true },
+  { id: 149, title: "UI/UX Pro Max Skill", desc: "Design intelligence AI skill for agents to generate complete design systems and prevent bad UI.", url: "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill", category: "Frontend Skills for Agents", tags: ["AI Agents", "Design System", "Skills"], trending: true, newRelease: true, chefsChoice: true },
   { id: 150, title: "Impeccable", desc: "Design language, commands, and detector rules giving AI coding agents frontend taste.", url: "https://github.com/pbakaus/impeccable", category: "Frontend Skills for Agents", tags: ["AI Agents", "Frontend", "Skills"], trending: true, newRelease: true },
+  { id: 177, title: "Agent Skills by Jakub Krehel", desc: "Curated collection of practical skills and system prompts designed for coding agents.", url: "https://github.com/jakubkrehel/skills", category: "Frontend Skills for Agents", tags: ["AI Agents", "Prompts", "Skills"], trending: true, newRelease: true },
 
   // --- Typography & Fonts ---
   { id: 52, title: "Google Fonts", desc: "The #1 resource for free and easy-to-use webfonts.", url: "https://fonts.google.com/", category: "Typography & Fonts", tags: ["Fonts", "Free"] },
