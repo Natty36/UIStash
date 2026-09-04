@@ -101,11 +101,15 @@ export const resourcesData: Resource[] = [
   { id: 170, title: "Lummi", desc: "Curated free AI stock photos and digital art crafted by creators.", url: "https://www.lummi.ai/", category: "Images & Videos", tags: ["AI", "Photos", "Curated", "Free"], trending: true, newRelease: true },
 
   // --- Testing & QA ---
-  { id: 102, title: "Storybook", desc: "Frontend workshop for UI component development and testing.", url: "https://storybook.js.org/", category: "Testing & QA", tags: ["UI", "Testing"] },
-  { id: 103, title: "Playwright", desc: "Fast and reliable end-to-end testing for modern web apps.", url: "https://playwright.dev/", category: "Testing & QA", tags: ["Testing", "E2E"] },
+  { id: 102, title: "Storybook", desc: "Frontend workshop for UI component development and testing in isolation.", url: "https://storybook.js.org/", category: "Testing & QA", tags: ["UI", "Sandbox", "Components"], trending: true },
+  { id: 103, title: "Playwright", desc: "Fast and reliable cross-browser end-to-end testing for modern web apps.", url: "https://playwright.dev/", category: "Testing & QA", tags: ["Testing", "E2E", "Automation"], trending: true },
+  { id: 174, title: "Cypress", desc: "Developer-friendly browser automation tool for end-to-end and component tests.", url: "https://www.cypress.io/", category: "Testing & QA", tags: ["Testing", "E2E", "Browser"] },
+  { id: 175, title: "Vitest", desc: "Blazing fast Vite-native unit and integration test framework.", url: "https://vitest.dev/", category: "Testing & QA", tags: ["Testing", "Vite", "Fast"], trending: true },
+  { id: 176, title: "Chromatic", desc: "Automated visual regression testing and review tool built for Storybook.", url: "https://www.chromatic.com/", category: "Testing & QA", tags: ["Testing", "Visual QA", "Storybook"], newRelease: true },
 
   // --- Hosting ---
-  { id: 8, title: "Vercel", desc: "Develop. Preview. Ship. For the best frontend teams.", url: "https://vercel.com", category: "Hosting", tags: ["Hosting", "CI/CD"] },
-  { id: 9, title: "Docker", desc: "Empowering App Development for Developers.", url: "https://docker.com", category: "Hosting", tags: ["Containers", "Infrastructure"] },
-  { id: 105, title: "Sentry", desc: "Application monitoring and error tracking software.", url: "https://sentry.io/", category: "Hosting", tags: ["Monitoring", "Errors"] },
+  { id: 8, title: "Vercel", desc: "Develop. Preview. Ship. Optimized deployment platform for modern frontend teams.", url: "https://vercel.com", category: "Hosting", tags: ["Hosting", "Frontend", "Next.js"], trending: true },
+  { id: 171, title: "Cloudflare Pages", desc: "Fast, secure edge hosting and full-stack platform for frontend developers.", url: "https://pages.cloudflare.com/", category: "Hosting", tags: ["Hosting", "Edge", "Fast"], trending: true },
+  { id: 172, title: "Netlify", desc: "Platform to deploy, scale, and automate modern web applications and static sites.", url: "https://www.netlify.com/", category: "Hosting", tags: ["Hosting", "Static", "CI/CD"] },
+  { id: 173, title: "EthioDeploy", desc: "Push to GitHub, deploy instantly. Built for developers with local Birr billing.", url: "https://ethiodeploy.com/", category: "Hosting", tags: ["Hosting", "Deployment", "Local"], newRelease: true, trending: true },
 ];
