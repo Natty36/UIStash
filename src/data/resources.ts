@@ -17,7 +17,7 @@ export const categories = [
   "Frontend Skills for Agents",
   "Typography & Fonts",
   "Colors & Gradients",
-  "Icons",
+  "Icons & Logos",
   "Images & Videos",
   "Testing & QA",
   "Hosting",
@@ -85,12 +85,15 @@ export const resourcesData: Resource[] = [
   { id: 162, title: "Mesh Gradient", desc: "Generate smooth, multi-point fluid gradients with direct CSS/SVG exports.", url: "https://meshgradient.in/", category: "Colors & Gradients", tags: ["Gradients", "Mesh", "CSS"], trending: true },
   { id: 163, title: "Happy Hues", desc: "Curated color palettes presented with context on real UI component states.", url: "https://www.happyhues.co/", category: "Colors & Gradients", tags: ["Colors", "UI", "Palettes"] },
 
-  // --- Icons ---
-  { id: 112, title: "Lucide Icons", desc: "Beautiful & consistent icon toolkit made by the community.", url: "https://lucide.dev/", category: "Icons", tags: ["Icons", "SVG"], trending: true },
-  { id: 79, title: "Phosphor Icons", desc: "Beautiful, boxy SVG icon set with customizable thickness.", url: "https://phosphoricons.com/", category: "Icons", tags: ["Icons", "SVG"] },
-  { id: 78, title: "Heroicons", desc: "A 230-pieces icon set by the makers of Tailwind CSS.", url: "https://heroicons.com/", category: "Icons", tags: ["Icons", "Tailwind"] },
-  { id: 158, title: "Remix Icon", desc: "Open-source neutral style system symbols elaborately crafted for designers and developers.", url: "https://remixicon.com/", category: "Icons", tags: ["Icons", "SVG", "Open Source"], trending: true },
-  { id: 159, title: "Iconoir", desc: "Open-source library with 1600+ unique SVG icons designed on a 24x24 grid.", url: "https://iconoir.com/", category: "Icons", tags: ["Icons", "SVG", "React"] },
+  // --- Icons & Logos ---
+  { id: 112, title: "Lucide Icons", desc: "Beautiful & consistent icon toolkit made by the community.", url: "https://lucide.dev/", category: "Icons & Logos", tags: ["Icons", "SVG"], trending: true },
+  { id: 79, title: "Phosphor Icons", desc: "Beautiful, boxy SVG icon set with customizable thickness.", url: "https://phosphoricons.com/", category: "Icons & Logos", tags: ["Icons", "SVG"] },
+  { id: 179, title: "LogoGG", desc: "Curated archive of modern startup logos, wordmarks, and visual brands.", url: "https://logogg.com/", category: "Icons & Logos", tags: ["Logo", "Branding", "Inspiration"], trending: true, newRelease: true },
+  { id: 180, title: "Brandfetch", desc: "Instant vector logos, brand palettes, and brand assets for millions of companies.", url: "https://brandfetch.com/", category: "Icons & Logos", tags: ["Brand", "Logos", "SVG", "Assets"], trending: true },
+  { id: 181, title: "LogoArchive", desc: "A curated digital archive of mid-century minimalist logos and modernist symbols.", url: "https://www.logo-archive.org/", category: "Icons & Logos", tags: ["Logo", "Archive", "Minimalist"], trending: true },
+  { id: 78, title: "Heroicons", desc: "A 230-pieces icon set by the makers of Tailwind CSS.", url: "https://heroicons.com/", category: "Icons & Logos", tags: ["Icons", "Tailwind"] },
+  { id: 158, title: "Remix Icon", desc: "Open-source neutral style system symbols elaborately crafted for designers and developers.", url: "https://remixicon.com/", category: "Icons & Logos", tags: ["Icons", "SVG", "Open Source"], trending: true },
+  { id: 159, title: "Iconoir", desc: "Open-source library with 1600+ unique SVG icons designed on a 24x24 grid.", url: "https://iconoir.com/", category: "Icons & Logos", tags: ["Icons", "SVG", "React"] },
 
   // --- Images & Videos ---
   { id: 68, title: "Unsplash", desc: "The internet’s source of freely-usable images.", url: "https://unsplash.com/", category: "Images & Videos", tags: ["Photos", "Free"] },

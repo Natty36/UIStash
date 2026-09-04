@@ -113,10 +113,9 @@ export default function Home() {
             onClick={() => { setActiveFilter("All"); setActiveCategory("All"); setSearchQuery(""); }}
             className="flex items-center gap-2.5 cursor-pointer shrink-0 group"
           >
-            <div className="w-8 h-8 rounded-md bg-foreground text-background flex items-center justify-center font-bold text-sm tracking-widest font-mono">
-              US
-            </div>
-            <span className="font-bold text-xl tracking-tight hidden sm:block font-[family-name:var(--font-space-grotesk)] group-hover:text-zinc-300 transition-colors">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="UI Stash" className="w-8 h-8 object-contain rounded-md" />
+            <span className="font-bold text-xl tracking-tight hidden sm:block font-mono group-hover:text-zinc-300 transition-colors">
               UI Stash
             </span>
           </div>
@@ -290,16 +289,26 @@ export default function Home() {
                       layout
                       variants={itemVariants}
                       whileHover={{ scale: 1.02, y: -2 }}
-                      className="group relative flex flex-col justify-between rounded-lg border border-zinc-800 bg-zinc-900/40 p-5 overflow-hidden transition-colors duration-200 hover:border-zinc-600 hover:bg-zinc-900/80"
+                      className="group relative flex flex-col justify-between rounded-lg border border-zinc-800 bg-zinc-900/40 p-5 overflow-hidden transition-colors duration-200 hover:border-zinc-600 hover:bg-zinc-900/80 cursor-default"
                     >
-                      <div className="relative z-10">
-                        <div className="flex justify-between items-start mb-3">
+                      {/* Whole card clickable link overlay */}
+                      <a
+                        href={resource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="absolute inset-0 z-10 cursor-default"
+                        aria-label={resource.title}
+                      />
+
+                      <div className="relative z-20 pointer-events-none">
+                        <div className="flex justify-between items-start mb-3 pointer-events-auto">
                           <span className="inline-flex items-center rounded border border-zinc-800 bg-zinc-950 px-2 py-0.5 text-[10px] font-mono text-zinc-400 group-hover:text-zinc-200 transition-colors">
                             {resource.category}
                           </span>
                           <button
                             onClick={(e) => {
                               e.preventDefault();
+                              e.stopPropagation();
                               toggleSave(resource.id);
                             }}
                             className={`p-1.5 rounded transition-colors ${
@@ -311,14 +320,14 @@ export default function Home() {
                           </button>
                         </div>
 
-                        <a href={resource.url} target="_blank" rel="noopener noreferrer" className="block focus:outline-none mt-2">
+                        <div className="mt-2">
                           <div className="flex items-center gap-2.5 mb-2">
-                            <div className="w-7 h-7 rounded bg-zinc-950 flex items-center justify-center overflow-hidden border border-zinc-800 shrink-0 shadow-sm">
+                            <div className="w-9 h-9 rounded-md bg-zinc-950 flex items-center justify-center overflow-hidden border border-zinc-800 shrink-0 shadow-sm p-1">
                               {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img
                                 src={`https://www.google.com/s2/favicons?domain=${resource.url}&sz=128`}
                                 alt={`${resource.title} icon`}
-                                className="w-4 h-4 object-contain"
+                                className="w-6 h-6 object-contain"
                                 onError={(e) => { e.currentTarget.style.opacity = '0'; }}
                               />
                             </div>
@@ -330,10 +339,10 @@ export default function Home() {
                           <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed font-mono">
                             {resource.desc}
                           </p>
-                        </a>
+                        </div>
                       </div>
 
-                      <div className="relative z-10 mt-5 flex flex-wrap gap-1.5 pt-3 border-t border-zinc-800/60">
+                      <div className="relative z-20 mt-5 flex flex-wrap gap-1.5 pt-3 border-t border-zinc-800/60 pointer-events-none">
                         {resource.tags.map((tag) => (
                           <span
                             key={tag}
