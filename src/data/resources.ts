@@ -25,37 +25,37 @@ export const categories = [
 export const resourcesData: Resource[] = [
   // --- UI Components & Blocks ---
   { id: 1, title: "shadcn/ui", desc: "Beautifully designed components that you can copy and paste into your apps.", url: "https://ui.shadcn.com", category: "UI Components & Blocks", tags: ["UI", "React", "Tailwind"], trending: true },
-  { id: 32, title: "Magic UI", desc: "UI Library for Design Engineers. Animated React components.", url: "https://magicui.design/", category: "UI Components & Blocks", tags: ["UI", "Animation", "React"], trending: true },
-  { id: 33, title: "Aceternity UI", desc: "Copy paste the most trending components and use them in your websites.", url: "https://ui.aceternity.com/", category: "UI Components & Blocks", tags: ["UI", "Tailwind", "Components"], trending: true },
-  { id: 131, title: "React Bits", desc: "An open source collection of animated, interactive & fully customizable React components.", url: "https://www.reactbits.dev/", category: "UI Components & Blocks", tags: ["React", "Animation", "Tailwind"], trending: true, newRelease: true },
-  { id: 132, title: "DaisyUI", desc: "The most popular, free and open-source Tailwind CSS component library.", url: "https://daisyui.com/", category: "UI Components & Blocks", tags: ["Tailwind", "CSS", "Components"] },
-  { id: 133, title: "Hover.dev", desc: "Animated Tailwind CSS & Framer Motion components ready to copy and paste.", url: "https://www.hover.dev/", category: "UI Components & Blocks", tags: ["Animation", "Tailwind", "Framer Motion"], trending: true },
   { id: 134, title: "OriginKit", desc: "Beautiful, accessible components crafted with Tailwind CSS and Radix UI.", url: "https://www.originkit.dev/", category: "UI Components & Blocks", tags: ["Tailwind", "Radix", "Components"], newRelease: true },
+  { id: 32, title: "Magic UI", desc: "UI Library for Design Engineers. Animated React components.", url: "https://magicui.design/", category: "UI Components & Blocks", tags: ["UI", "Animation", "React"], trending: true },
+  { id: 131, title: "React Bits", desc: "An open source collection of animated, interactive & fully customizable React components.", url: "https://www.reactbits.dev/", category: "UI Components & Blocks", tags: ["React", "Animation", "Tailwind"], trending: true, newRelease: true },
+  { id: 133, title: "Hover.dev", desc: "Animated Tailwind CSS & Framer Motion components ready to copy and paste.", url: "https://www.hover.dev/", category: "UI Components & Blocks", tags: ["Animation", "Tailwind", "Framer Motion"], trending: true },
   { id: 135, title: "21st.dev", desc: "The npm for Design Engineers. Discover and share copy-paste UI components.", url: "https://21st.dev/", category: "UI Components & Blocks", tags: ["Marketplace", "React", "Tailwind"], trending: true, newRelease: true },
-  { id: 138, title: "Motion Primitives", desc: "Advanced interactive UI components crafted with Framer Motion and Tailwind.", url: "https://motion-primitives.com/", category: "UI Components & Blocks", tags: ["Motion", "React", "Tailwind"], trending: true, newRelease: true },
+  { id: 132, title: "DaisyUI", desc: "The most popular, free and open-source Tailwind CSS component library.", url: "https://daisyui.com/", category: "UI Components & Blocks", tags: ["Tailwind", "CSS", "Components"] },
   { id: 139, title: "Cult UI", desc: "Curated components and interactive elements for modern design engineers.", url: "https://www.cult-ui.com/", category: "UI Components & Blocks", tags: ["React", "Tailwind", "Motion"] },
+  { id: 33, title: "Aceternity UI", desc: "Copy paste the most trending components and use them in your websites.", url: "https://ui.aceternity.com/", category: "UI Components & Blocks", tags: ["UI", "Tailwind", "Components"], trending: true },
+  { id: 138, title: "Motion Primitives", desc: "Advanced interactive UI components crafted with Framer Motion and Tailwind.", url: "https://motion-primitives.com/", category: "UI Components & Blocks", tags: ["Motion", "React", "Tailwind"], trending: true, newRelease: true },
   { id: 140, title: "Animate UI", desc: "A collection of animated React components, buttons, and micro-interactions.", url: "https://animate-ui.com/", category: "UI Components & Blocks", tags: ["Animation", "React", "Tailwind"] },
 
   // --- Animations & 3D ---
   { id: 3, title: "Framer Motion", desc: "Production-ready declarative animations for React.", url: "https://framer.com/motion", category: "Animations & 3D", tags: ["Animation", "React"] },
+  { id: 141, title: "Lenis", desc: "Smooth scroll library built for modern luxury & creative web builds.", url: "https://lenis.darkroom.engineering/", category: "Animations & 3D", tags: ["Scroll", "Smooth Scroll", "Creative"], trending: true },
+  { id: 145, title: "GSAP", desc: "Professional-grade JavaScript animation engine for high-performance motion.", url: "https://gsap.com/", category: "Animations & 3D", tags: ["GSAP", "Animation", "Performance"], trending: true },
+  { id: 142, title: "Anime.js", desc: "Lightweight JavaScript animation engine with a simple, powerful API.", url: "https://animejs.com/", category: "Animations & 3D", tags: ["Animation", "JavaScript", "SVG"] },
+  { id: 143, title: "Three.js", desc: "The standard JavaScript 3D library for WebGL rendering on the web.", url: "https://threejs.org/", category: "Animations & 3D", tags: ["3D", "WebGL", "JavaScript"], trending: true },
+  { id: 146, title: "React Three Fiber", desc: "A React renderer for Three.js to build declarative 3D scenes.", url: "https://docs.pmnd.rs/react-three-fiber", category: "Animations & 3D", tags: ["React", "Three.js", "3D", "WebGL"], trending: true },
   { id: 123, title: "Spline", desc: "3D design tool in the browser with real-time collaboration.", url: "https://spline.design/", category: "Animations & 3D", tags: ["3D", "Design"], trending: true },
   { id: 124, title: "Rive", desc: "Build interactive animations that run anywhere.", url: "https://rive.app/", category: "Animations & 3D", tags: ["Animation", "Interactive"] },
   { id: 125, title: "LottieFiles", desc: "Lightweight, scalable animations for your websites and apps.", url: "https://lottiefiles.com/", category: "Animations & 3D", tags: ["Animation", "JSON"] },
-  { id: 141, title: "Lenis", desc: "Smooth scroll library built for modern luxury & creative web builds.", url: "https://lenis.darkroom.engineering/", category: "Animations & 3D", tags: ["Scroll", "Smooth Scroll", "Creative"], trending: true },
-  { id: 142, title: "Anime.js", desc: "Lightweight JavaScript animation engine with a simple, powerful API.", url: "https://animejs.com/", category: "Animations & 3D", tags: ["Animation", "JavaScript", "SVG"] },
-  { id: 143, title: "Three.js", desc: "The standard JavaScript 3D library for WebGL rendering on the web.", url: "https://threejs.org/", category: "Animations & 3D", tags: ["3D", "WebGL", "JavaScript"], trending: true },
   { id: 144, title: "Sketchfab", desc: "Publish, share, buy, and download interactive 3D models and assets.", url: "https://sketchfab.com/", category: "Animations & 3D", tags: ["3D", "Assets", "Models"] },
-  { id: 145, title: "GSAP", desc: "Professional-grade JavaScript animation engine for high-performance motion.", url: "https://gsap.com/", category: "Animations & 3D", tags: ["GSAP", "Animation", "Performance"], trending: true },
-  { id: 146, title: "React Three Fiber", desc: "A React renderer for Three.js to build declarative 3D scenes.", url: "https://docs.pmnd.rs/react-three-fiber", category: "Animations & 3D", tags: ["React", "Three.js", "3D", "WebGL"], trending: true },
   { id: 147, title: "Poly Pizza", desc: "Free low-poly 3D models for games, creative websites, and interactive apps.", url: "https://poly.pizza/", category: "Animations & 3D", tags: ["3D", "Models", "Low-Poly"] },
 
   // --- Design & Prototyping ---
-  { id: 106, title: "Relume Library", desc: "The world's largest Webflow and Figma component library.", url: "https://library.relume.io/", category: "Design & Prototyping", tags: ["Webflow", "Figma", "Wireframe"] },
   { id: 15, title: "Figma", desc: "The collaborative interface design tool.", url: "https://figma.com", category: "Design & Prototyping", tags: ["Design", "Prototyping"] },
   { id: 148, title: "Framer", desc: "Design and publish responsive, animated websites visually with zero code.", url: "https://www.framer.com/", category: "Design & Prototyping", tags: ["Design", "Website Builder", "Interactive"], trending: true },
-  { id: 126, title: "Penpot", desc: "Open Source design and prototyping platform.", url: "https://penpot.app/", category: "Design & Prototyping", tags: ["Open Source", "Design"] },
+  { id: 106, title: "Relume Library", desc: "The world's largest Webflow and Figma component library.", url: "https://library.relume.io/", category: "Design & Prototyping", tags: ["Webflow", "Figma", "Wireframe"] },
   { id: 127, title: "Stitch by Google", desc: "A framework to build rich, connected user experiences across platforms.", url: "https://stitch.withgoogle.com/", category: "Design & Prototyping", tags: ["Design", "UI", "Google"] },
   { id: 151, title: "Claude Design", desc: "Generative UI design and rapid interactive artifact prototyping with Claude.", url: "https://claude.ai/", category: "Design & Prototyping", tags: ["AI", "Design", "Prototyping"], trending: true, newRelease: true },
+  { id: 126, title: "Penpot", desc: "Open Source design and prototyping platform.", url: "https://penpot.app/", category: "Design & Prototyping", tags: ["Open Source", "Design"] },
   { id: 152, title: "OpenDesign", desc: "Open-source developer platform for Figma/sketch file inspection and design data APIs.", url: "https://opendesign.dev/", category: "Design & Prototyping", tags: ["Open Source", "Design", "API"], newRelease: true },
 
   // --- Frontend Skills for Agents ---
@@ -64,19 +64,19 @@ export const resourcesData: Resource[] = [
 
   // --- Typography & Fonts ---
   { id: 52, title: "Google Fonts", desc: "The #1 resource for free and easy-to-use webfonts.", url: "https://fonts.google.com/", category: "Typography & Fonts", tags: ["Fonts", "Free"] },
-  { id: 53, title: "Fontsquirrel", desc: "The best, 100% free fonts for commercial use.", url: "https://www.fontsquirrel.com/", category: "Typography & Fonts", tags: ["Fonts", "Free"] },
-  { id: 153, title: "Fontpair", desc: "Free font pairings, typography combinations, and design inspiration for creators.", url: "https://www.fontpair.co/", category: "Typography & Fonts", tags: ["Fonts", "Typography", "Pairings"], trending: true },
   { id: 154, title: "UNCUT.wtf", desc: "A curated contemporary catalogue of open-source and free typefaces.", url: "https://uncut.wtf/", category: "Typography & Fonts", tags: ["Fonts", "Typefaces", "Contemporary"], trending: true, newRelease: true },
+  { id: 153, title: "Fontpair", desc: "Free font pairings, typography combinations, and design inspiration for creators.", url: "https://www.fontpair.co/", category: "Typography & Fonts", tags: ["Fonts", "Typography", "Pairings"], trending: true },
   { id: 155, title: "Fontshare", desc: "Free quality font service by the Indian Type Foundry featuring modern web typefaces.", url: "https://www.fontshare.com/", category: "Typography & Fonts", tags: ["Fonts", "Typography", "Free"], trending: true },
   { id: 156, title: "Velvetyne Type Foundry", desc: "Open-source foundry creating contemporary, brutalist, and experimental typefaces.", url: "https://velvetyne.fr/", category: "Typography & Fonts", tags: ["Open Source", "Experimental", "Fonts"] },
   { id: 157, title: "Open Foundry", desc: "Curated open-source type directory with real-time browser preview controls.", url: "https://open-foundry.com/", category: "Typography & Fonts", tags: ["Open Source", "Directory", "Fonts"] },
+  { id: 53, title: "Fontsquirrel", desc: "The best, 100% free fonts for commercial use.", url: "https://www.fontsquirrel.com/", category: "Typography & Fonts", tags: ["Fonts", "Free"] },
 
   // --- Colors & Gradients ---
-  { id: 57, title: "Open Color", desc: "An open-source color scheme optimized for UI.", url: "https://yeun.github.io/open-color/", category: "Colors & Gradients", tags: ["Colors", "UI"] },
-  { id: 61, title: "Colorhunt", desc: "Curated collection of beautiful color palettes.", url: "https://www.colorhunt.co/", category: "Colors & Gradients", tags: ["Colors", "Palettes"] },
-  { id: 63, title: "UI Gradients", desc: "Collection of beautiful color gradients.", url: "https://uigradients.com/", category: "Colors & Gradients", tags: ["Colors", "Gradients"] },
-  { id: 136, title: "Coolors", desc: "The super fast color palettes generator.", url: "https://coolors.co/", category: "Colors & Gradients", tags: ["Colors", "Palettes", "Generator"], trending: true },
   { id: 137, title: "Colors by Robi", desc: "Curated aesthetic color palettes and gradient collections.", url: "https://colors.robi.work/", category: "Colors & Gradients", tags: ["Colors", "Curated", "Palettes"] },
+  { id: 136, title: "Coolors", desc: "The super fast color palettes generator.", url: "https://coolors.co/", category: "Colors & Gradients", tags: ["Colors", "Palettes", "Generator"], trending: true },
+  { id: 61, title: "Colorhunt", desc: "Curated collection of beautiful color palettes.", url: "https://www.colorhunt.co/", category: "Colors & Gradients", tags: ["Colors", "Palettes"] },
+  { id: 57, title: "Open Color", desc: "An open-source color scheme optimized for UI.", url: "https://yeun.github.io/open-color/", category: "Colors & Gradients", tags: ["Colors", "UI"] },
+  { id: 63, title: "UI Gradients", desc: "Collection of beautiful color gradients.", url: "https://uigradients.com/", category: "Colors & Gradients", tags: ["Colors", "Gradients"] },
   { id: 160, title: "Realtime Colors", desc: "Visualize and preview your color palettes on a live website in real time.", url: "https://realtimecolors.com/", category: "Colors & Gradients", tags: ["Colors", "Preview", "Contrast"], trending: true },
   { id: 161, title: "Huemint", desc: "AI-driven color palette generator built specifically for graphic and UI layouts.", url: "https://huemint.com/", category: "Colors & Gradients", tags: ["Colors", "AI", "Palettes"] },
   { id: 162, title: "Mesh Gradient", desc: "Generate smooth, multi-point fluid gradients with direct CSS/SVG exports.", url: "https://meshgradient.in/", category: "Colors & Gradients", tags: ["Gradients", "Mesh", "CSS"], trending: true },
@@ -108,8 +108,8 @@ export const resourcesData: Resource[] = [
   { id: 176, title: "Chromatic", desc: "Automated visual regression testing and review tool built for Storybook.", url: "https://www.chromatic.com/", category: "Testing & QA", tags: ["Testing", "Visual QA", "Storybook"], newRelease: true },
 
   // --- Hosting ---
-  { id: 8, title: "Vercel", desc: "Develop. Preview. Ship. Optimized deployment platform for modern frontend teams.", url: "https://vercel.com", category: "Hosting", tags: ["Hosting", "Frontend", "Next.js"], trending: true },
   { id: 171, title: "Cloudflare Pages", desc: "Fast, secure edge hosting and full-stack platform for frontend developers.", url: "https://pages.cloudflare.com/", category: "Hosting", tags: ["Hosting", "Edge", "Fast"], trending: true },
-  { id: 172, title: "Netlify", desc: "Platform to deploy, scale, and automate modern web applications and static sites.", url: "https://www.netlify.com/", category: "Hosting", tags: ["Hosting", "Static", "CI/CD"] },
   { id: 173, title: "EthioDeploy", desc: "Push to GitHub, deploy instantly. Built for developers with local Birr billing.", url: "https://ethiodeploy.com/", category: "Hosting", tags: ["Hosting", "Deployment", "Local"], newRelease: true, trending: true },
+  { id: 8, title: "Vercel", desc: "Develop. Preview. Ship. Optimized deployment platform for modern frontend teams.", url: "https://vercel.com", category: "Hosting", tags: ["Hosting", "Frontend", "Next.js"], trending: true },
+  { id: 172, title: "Netlify", desc: "Platform to deploy, scale, and automate modern web applications and static sites.", url: "https://www.netlify.com/", category: "Hosting", tags: ["Hosting", "Static", "CI/CD"] },
 ];

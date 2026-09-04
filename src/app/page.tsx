@@ -122,7 +122,7 @@ export default function Home() {
 
             <div>
               <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Categories</h3>
-              <div className="space-y-1 max-h-[50vh] overflow-y-auto pr-2 scrollbar-thin">
+              <div className="space-y-1 max-h-[50vh] overflow-y-auto pr-2 scrollbar-thin overscroll-contain" data-lenis-prevent>
                 {categories.map((cat) => (
                   <button
                     key={cat}
