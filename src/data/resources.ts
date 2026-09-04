@@ -67,6 +67,9 @@ export const resourcesData: Resource[] = [
   { id: 53, title: "Fontsquirrel", desc: "The best, 100% free fonts for commercial use.", url: "https://www.fontsquirrel.com/", category: "Typography & Fonts", tags: ["Fonts", "Free"] },
   { id: 153, title: "Fontpair", desc: "Free font pairings, typography combinations, and design inspiration for creators.", url: "https://www.fontpair.co/", category: "Typography & Fonts", tags: ["Fonts", "Typography", "Pairings"], trending: true },
   { id: 154, title: "UNCUT.wtf", desc: "A curated contemporary catalogue of open-source and free typefaces.", url: "https://uncut.wtf/", category: "Typography & Fonts", tags: ["Fonts", "Typefaces", "Contemporary"], trending: true, newRelease: true },
+  { id: 155, title: "Fontshare", desc: "Free quality font service by the Indian Type Foundry featuring modern web typefaces.", url: "https://www.fontshare.com/", category: "Typography & Fonts", tags: ["Fonts", "Typography", "Free"], trending: true },
+  { id: 156, title: "Velvetyne Type Foundry", desc: "Open-source foundry creating contemporary, brutalist, and experimental typefaces.", url: "https://velvetyne.fr/", category: "Typography & Fonts", tags: ["Open Source", "Experimental", "Fonts"] },
+  { id: 157, title: "Open Foundry", desc: "Curated open-source type directory with real-time browser preview controls.", url: "https://open-foundry.com/", category: "Typography & Fonts", tags: ["Open Source", "Directory", "Fonts"] },
 
   // --- Colors & Gradients ---
   { id: 57, title: "Open Color", desc: "An open-source color scheme optimized for UI.", url: "https://yeun.github.io/open-color/", category: "Colors & Gradients", tags: ["Colors", "UI"] },
@@ -74,15 +77,28 @@ export const resourcesData: Resource[] = [
   { id: 63, title: "UI Gradients", desc: "Collection of beautiful color gradients.", url: "https://uigradients.com/", category: "Colors & Gradients", tags: ["Colors", "Gradients"] },
   { id: 136, title: "Coolors", desc: "The super fast color palettes generator.", url: "https://coolors.co/", category: "Colors & Gradients", tags: ["Colors", "Palettes", "Generator"], trending: true },
   { id: 137, title: "Colors by Robi", desc: "Curated aesthetic color palettes and gradient collections.", url: "https://colors.robi.work/", category: "Colors & Gradients", tags: ["Colors", "Curated", "Palettes"] },
+  { id: 160, title: "Realtime Colors", desc: "Visualize and preview your color palettes on a live website in real time.", url: "https://realtimecolors.com/", category: "Colors & Gradients", tags: ["Colors", "Preview", "Contrast"], trending: true },
+  { id: 161, title: "Huemint", desc: "AI-driven color palette generator built specifically for graphic and UI layouts.", url: "https://huemint.com/", category: "Colors & Gradients", tags: ["Colors", "AI", "Palettes"] },
+  { id: 162, title: "Mesh Gradient", desc: "Generate smooth, multi-point fluid gradients with direct CSS/SVG exports.", url: "https://meshgradient.in/", category: "Colors & Gradients", tags: ["Gradients", "Mesh", "CSS"], trending: true },
+  { id: 163, title: "Happy Hues", desc: "Curated color palettes presented with context on real UI component states.", url: "https://www.happyhues.co/", category: "Colors & Gradients", tags: ["Colors", "UI", "Palettes"] },
 
   // --- Icons ---
   { id: 112, title: "Lucide Icons", desc: "Beautiful & consistent icon toolkit made by the community.", url: "https://lucide.dev/", category: "Icons", tags: ["Icons", "SVG"], trending: true },
   { id: 79, title: "Phosphor Icons", desc: "Beautiful, boxy SVG icon set with customizable thickness.", url: "https://phosphoricons.com/", category: "Icons", tags: ["Icons", "SVG"] },
   { id: 78, title: "Heroicons", desc: "A 230-pieces icon set by the makers of Tailwind CSS.", url: "https://heroicons.com/", category: "Icons", tags: ["Icons", "Tailwind"] },
+  { id: 158, title: "Remix Icon", desc: "Open-source neutral style system symbols elaborately crafted for designers and developers.", url: "https://remixicon.com/", category: "Icons", tags: ["Icons", "SVG", "Open Source"], trending: true },
+  { id: 159, title: "Iconoir", desc: "Open-source library with 1600+ unique SVG icons designed on a 24x24 grid.", url: "https://iconoir.com/", category: "Icons", tags: ["Icons", "SVG", "React"] },
 
   // --- Images & Videos ---
   { id: 68, title: "Unsplash", desc: "The internet’s source of freely-usable images.", url: "https://unsplash.com/", category: "Images & Videos", tags: ["Photos", "Free"] },
   { id: 72, title: "unDraw", desc: "Hundreds of free and open-source illustrations.", url: "https://undraw.co/illustrations", category: "Images & Videos", tags: ["Illustrations", "SVG"] },
+  { id: 164, title: "Pexels", desc: "Free high-quality stock photos and royalty-free b-roll videos for creative web design.", url: "https://www.pexels.com/", category: "Images & Videos", tags: ["Photos", "Videos", "Free"] },
+  { id: 165, title: "Mixkit", desc: "Free video clips, sound effects, and motion assets for website backdrops.", url: "https://mixkit.co/", category: "Images & Videos", tags: ["Video", "Assets", "Free"] },
+  { id: 166, title: "DrawKit", desc: "Hand-drawn vector illustrations and modular 2D/3D illustration kits.", url: "https://www.drawkit.com/", category: "Images & Videos", tags: ["Illustrations", "Vector", "Design"] },
+  { id: 167, title: "Open Peeps", desc: "Hand-drawn illustration library with customizable poses, hair, and clothing.", url: "https://www.openpeeps.com/", category: "Images & Videos", tags: ["Illustrations", "Modular", "Open Source"] },
+  { id: 168, title: "Screenlane", desc: "Curated UI animations, interaction flows, and visual website screen patterns.", url: "https://screenlane.com/", category: "Images & Videos", tags: ["UI", "Inspiration", "Screens"] },
+  { id: 169, title: "Higgsfield AI", desc: "Next-generation video creation and realistic motion models for creators.", url: "https://higgsfield.ai/", category: "Images & Videos", tags: ["AI", "Video", "Motion"], trending: true, newRelease: true },
+  { id: 170, title: "Lummi", desc: "Curated free AI stock photos and digital art crafted by creators.", url: "https://www.lummi.ai/", category: "Images & Videos", tags: ["AI", "Photos", "Curated", "Free"], trending: true, newRelease: true },
 
   // --- Testing & QA ---
   { id: 102, title: "Storybook", desc: "Frontend workshop for UI component development and testing.", url: "https://storybook.js.org/", category: "Testing & QA", tags: ["UI", "Testing"] },
