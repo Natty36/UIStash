@@ -16,12 +16,14 @@ import {
   Sparkles,
 } from "lucide-react";
 import { resourcesData, categories } from "@/data/resources";
+import { LoginModal } from "@/components/LoginModal";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeFilter, setActiveFilter] = useState<"All" | "Saved" | "ChefsChoice">("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [savedItems, setSavedItems] = useState<number[]>([]);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Keyboard shortcut listener for '/' and Cmd+K / Ctrl+K
@@ -167,6 +169,7 @@ export default function Home() {
 
             {/* Sign In Button */}
             <button
+              onClick={() => setIsLoginModalOpen(true)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-zinc-200 transition-all active:scale-95"
               title="Sign In"
             >
@@ -472,6 +475,9 @@ export default function Home() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Login Modal */}
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </div>
   );
 }
