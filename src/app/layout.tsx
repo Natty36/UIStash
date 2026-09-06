@@ -17,6 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://the-uistash.vercel.app"),
   title: "UI Stash - Developer UI & Resource Directory",
   description: "The modern, curated directory of UI components, developer tools, and resources.",
   icons: {
