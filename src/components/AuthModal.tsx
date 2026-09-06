@@ -34,27 +34,28 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
   // Reset form state when modal opens/closes
   useEffect(() => {
     if (!isOpen) {
-      setError("");
-      setIsLoading(false);
-      setIsSuccess(false);
-      setUsernameStatus("idle");
+      queueMicrotask(() => {
+        setError("");
+        setIsLoading(false);
+        setIsSuccess(false);
+        setUsernameStatus("idle");
+      });
     }
   }, [isOpen]);
 
   // Live username availability debounced check
   useEffect(() => {
     if (!isSignUp || !username.trim()) {
-      setUsernameStatus("idle");
+      queueMicrotask(() => setUsernameStatus("idle"));
       return;
     }
 
     const trimmed = username.trim();
     if (trimmed.length < 3 || !/^[a-zA-Z0-9_]+$/.test(trimmed)) {
-      setUsernameStatus("invalid");
+      queueMicrotask(() => setUsernameStatus("invalid"));
       return;
     }
 
-    setUsernameStatus("checking");
     const timer = setTimeout(async () => {
       try {
         const isAvailable = await checkUsernameAvailable(trimmed);
@@ -63,6 +64,8 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         setUsernameStatus("idle");
       }
     }, 350);
+
+    queueMicrotask(() => setUsernameStatus("checking"));
 
     return () => clearTimeout(timer);
   }, [username, isSignUp, checkUsernameAvailable]);
@@ -110,8 +113,9 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         setIdentifier("");
         setPassword("");
       }, 800);
-    } catch (err: any) {
-      const rawMsg = err.message || "An authentication error occurred.";
+    } catch (err: unknown) {
+      const errorObj = err as Error;
+      const rawMsg = errorObj.message || "An authentication error occurred.";
       setError(rawMsg.replace("Firebase: ", "").replace(/auth\//g, ""));
     } finally {
       setIsLoading(false);
@@ -128,8 +132,9 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         setIsSuccess(false);
         onClose();
       }, 800);
-    } catch (err: any) {
-      const rawMsg = err.message || "Failed to sign in with Google.";
+    } catch (err: unknown) {
+      const errorObj = err as Error;
+      const rawMsg = errorObj.message || "Failed to sign in with Google.";
       setError(rawMsg.replace("Firebase: ", "").replace(/auth\//g, ""));
     } finally {
       setIsLoading(false);
@@ -146,8 +151,9 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         setIsSuccess(false);
         onClose();
       }, 800);
-    } catch (err: any) {
-      const rawMsg = err.message || "Failed to sign in with GitHub.";
+    } catch (err: unknown) {
+      const errorObj = err as Error;
+      const rawMsg = errorObj.message || "Failed to sign in with GitHub.";
       setError(rawMsg.replace("Firebase: ", "").replace(/auth\//g, ""));
     } finally {
       setIsLoading(false);

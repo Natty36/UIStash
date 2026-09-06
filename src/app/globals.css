@@ -51,12 +51,18 @@
   * {
     @apply border-[color:var(--border)];
   }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-jetbrains-mono), monospace;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-space-grotesk), sans-serif;
   }
 
@@ -65,12 +71,15 @@
     width: 6px;
     height: 6px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     @apply bg-secondary-foreground/20 rounded-full;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-secondary-foreground/40;
   }

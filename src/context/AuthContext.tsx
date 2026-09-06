@@ -78,7 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     const initialFirstName = getFirstName(user.displayName, user.email);
-    setUsername(initialFirstName);
+    queueMicrotask(() => setUsername(initialFirstName));
 
     const userDocRef = doc(db, "users", user.uid);
     const unsubscribeSnapshot = onSnapshot(
@@ -199,11 +199,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             throw new Error("No account found with that username.");
           }
         }
-      } catch (err: any) {
-        if (err.message && err.message.includes("No account found")) {
+      } catch (err: unknown) {
+        const errorObj = err as Error & { code?: string };
+        if (errorObj.message && errorObj.message.includes("No account found")) {
           throw err;
         }
-        if (err.code === "permission-denied" || err.message?.includes("permission")) {
+        if (errorObj.code === "permission-denied" || errorObj.message?.includes("permission")) {
           throw new Error("Firestore permission denied. Please sign in with your email address or update your Firebase Rules.");
         }
         throw err;
@@ -238,8 +239,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (usernameSnap.exists()) {
         throw new Error("This username is already taken. Please choose another.");
       }
-    } catch (err: any) {
-      if (err.message && err.message.includes("already taken")) {
+    } catch (err: unknown) {
+      const errorObj = err as Error;
+      if (errorObj.message && errorObj.message.includes("already taken")) {
         throw err;
       }
     }

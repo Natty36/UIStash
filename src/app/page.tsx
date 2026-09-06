@@ -13,8 +13,8 @@ import {
   Bookmark,
   Trash2,
   Heart,
-  Sparkles,
   LogOut,
+  ChefHat,
 } from "lucide-react";
 import { resourcesData, categories } from "@/data/resources";
 import { AuthModal } from "@/components/AuthModal";
@@ -43,21 +43,19 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeFilter, setActiveFilter] = useState<"All" | "Saved" | "ChefsChoice">("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [localSavedItems, setLocalSavedItems] = useState<number[]>([]);
+  const [localSavedItems, setLocalSavedItems] = useState<number[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("uistash_saved_items");
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        console.error("Failed to parse local saved items", e);
+      }
+    }
+    return [];
+  });
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
-
-  // Load initial local saved items from localStorage for unauthenticated users
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("uistash_saved_items");
-      if (stored) {
-        setLocalSavedItems(JSON.parse(stored));
-      }
-    } catch (e) {
-      console.error("Failed to parse local saved items", e);
-    }
-  }, []);
 
   // Sync local guest bookmarks to Firestore when user logs in
   useEffect(() => {
@@ -67,12 +65,12 @@ export default function Home() {
           toggleSaveFirestore(id);
         }
       });
-      setLocalSavedItems([]);
       try {
         localStorage.removeItem("uistash_saved_items");
       } catch (e) {
         console.error(e);
       }
+      queueMicrotask(() => setLocalSavedItems([]));
     }
   }, [user, localSavedItems, savedIds, toggleSaveFirestore]);
 
@@ -310,8 +308,8 @@ export default function Home() {
                       : 'text-zinc-400 hover:text-foreground hover:bg-zinc-900/60'
                   }`}
                 >
-                  <Sparkles className={`h-4 w-4 ${activeFilter === "ChefsChoice" ? 'text-amber-400' : 'text-zinc-500'}`} />
-                  Chef&apos;s Choice
+                  <ChefHat className={`h-4 w-4 ${activeFilter === "ChefsChoice" ? 'text-zinc-200' : 'text-zinc-500'}`} />
+                  <span>Chef&apos;s Choice</span>
                 </button>
               </div>
             </div>
@@ -392,9 +390,20 @@ export default function Home() {
 
                       <div className="relative z-20 pointer-events-none">
                         <div className="flex justify-between items-start mb-3 pointer-events-auto">
-                          <span className="inline-flex items-center rounded border border-zinc-800 bg-zinc-950 px-2 py-0.5 text-[10px] font-mono text-zinc-400 group-hover:text-zinc-200 transition-colors">
-                            {resource.category}
-                          </span>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="inline-flex items-center rounded border border-zinc-800 bg-zinc-950 px-2 py-0.5 text-[10px] font-mono text-zinc-400 group-hover:text-zinc-200 transition-colors">
+                              {resource.category}
+                            </span>
+                            {resource.chefsChoice && (
+                              <span
+                                title="Chef's Choice"
+                                className="inline-flex items-center gap-1 rounded border border-zinc-800 bg-zinc-950 px-1.5 py-0.5 text-[10px] font-mono text-zinc-400 group-hover:border-zinc-700 group-hover:text-zinc-200 transition-colors shrink-0"
+                              >
+                                <ChefHat className="h-3 w-3 text-zinc-400 group-hover:text-zinc-200" />
+                                <span className="hidden sm:inline">Chef&apos;s Pick</span>
+                              </span>
+                            )}
+                          </div>
                           <button
                             onClick={(e) => {
                               e.preventDefault();
