@@ -64,10 +64,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!user) return;
 
-    // Helper to get first name only from full name or email
+    // Helper to format display username (first name if full name with spaces, or exact username)
     const getFirstName = (name?: string | null, email?: string | null) => {
       if (name && name.trim()) {
-        const parts = name.trim().split(/\s+/);
+        const trimmed = name.trim();
+        // If it's a full name with spaces (e.g. "Natnael Mulugeta"), return first name
+        const parts = trimmed.split(/\s+/);
         return parts[0];
       }
       if (email && email.includes("@")) {
@@ -77,8 +79,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return "User";
     };
 
-    const initialFirstName = getFirstName(user.displayName, user.email);
-    queueMicrotask(() => setUsername(initialFirstName));
+    const initialName = user.displayName ? getFirstName(user.displayName, user.email) : getFirstName(null, user.email);
+    queueMicrotask(() => setUsername(initialName));
 
     const userDocRef = doc(db, "users", user.uid);
     const unsubscribeSnapshot = onSnapshot(
@@ -87,14 +89,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (snap.exists()) {
           const data = snap.data();
           setSavedIds(data.savedResourceIds || []);
-          if (data.username || data.displayName) {
-            const rawName = data.username || data.displayName;
-            setUsername(getFirstName(rawName, user.email));
+          if (data.username) {
+            setUsername(data.username);
+          } else if (data.displayName || user.displayName) {
+            setUsername(getFirstName(data.displayName || user.displayName, user.email));
           }
         } else {
           // Initialize doc on first login (e.g. Google / GitHub)
           const firstName = getFirstName(user.displayName, user.email);
-          const defaultUsername = firstName.toLowerCase();
+          const defaultUsername = user.displayName ? getFirstName(user.displayName, user.email) : firstName;
           const usernameLower = defaultUsername.toLowerCase();
 
           try {
@@ -102,7 +105,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               userDocRef,
               {
                 email: user.email || "",
-                displayName: firstName,
                 username: defaultUsername,
                 usernameLower: usernameLower,
                 photoURL: user.photoURL || "",
@@ -127,7 +129,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             console.warn("Firestore rules warning:", e);
           }
 
-          setUsername(firstName);
+          setUsername(defaultUsername);
         }
         setLoading(false);
       },
@@ -255,14 +257,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUsername(trimmedUsername);
 
       try {
-        // Save user doc in Firestore
+        // Save user doc in Firestore cleanly (only chosen username, no redundant Google/email names)
         await setDoc(
           doc(db, "users", res.user.uid),
           {
             email: email.trim(),
             username: trimmedUsername,
             usernameLower: usernameLower,
-            displayName: trimmedUsername,
             savedResourceIds: [],
             createdAt: serverTimestamp(),
           },
