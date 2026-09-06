@@ -151,132 +151,47 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await signInWithPopup(auth, githubProvider);
   };
 
-  // Helper to check if username is available in Firestore
-  const checkUsernameAvailable = async (usernameInput: string): Promise<boolean> => {
-    const trimmed = usernameInput.trim();
-    if (!trimmed || trimmed.length < 3 || !/^[a-zA-Z0-9_]+$/.test(trimmed)) {
-      return false;
-    }
-    const usernameLower = trimmed.toLowerCase();
-    try {
-      const usernameDocRef = doc(db, "usernames", usernameLower);
-      const usernameSnap = await getDoc(usernameDocRef);
-      if (usernameSnap.exists()) {
-        return false;
-      }
-      const q = query(collection(db, "users"), where("usernameLower", "==", usernameLower));
-      const querySnap = await getDocs(q);
-      return querySnap.empty;
-    } catch (e) {
-      console.warn("Username availability check warning:", e);
-      return true;
-    }
+  // Helper to check if username is available (always returns true as usernames don't need to be unique)
+  const checkUsernameAvailable = async (): Promise<boolean> => {
+    return true;
   };
 
-  // Sign In using Email OR Username
-  const signInWithEmail = async (identifier: string, pass: string) => {
-    const trimmed = identifier.trim();
+  // Sign In strictly using Email & Password
+  const signInWithEmail = async (emailInput: string, pass: string) => {
+    const trimmed = emailInput.trim();
     if (!trimmed) {
-      throw new Error("Please enter your email or username.");
+      throw new Error("Please enter your email address.");
     }
-
-    let targetEmail = trimmed;
-
-    // If identifier is not an email (does not contain @), resolve email from username in Firestore
-    if (!trimmed.includes("@")) {
-      const usernameLower = trimmed.toLowerCase();
-      try {
-        const usernameDocRef = doc(db, "usernames", usernameLower);
-        const usernameSnap = await getDoc(usernameDocRef);
-
-        if (usernameSnap.exists()) {
-          targetEmail = usernameSnap.data().email;
-        } else {
-          // Query users collection as secondary fallback
-          const q = query(collection(db, "users"), where("usernameLower", "==", usernameLower));
-          const querySnap = await getDocs(q);
-          if (!querySnap.empty) {
-            targetEmail = querySnap.docs[0].data().email;
-          } else {
-            throw new Error("No account found with that username.");
-          }
-        }
-      } catch (err: unknown) {
-        const errorObj = err as Error & { code?: string };
-        if (errorObj.message && errorObj.message.includes("No account found")) {
-          throw err;
-        }
-        if (errorObj.code === "permission-denied" || errorObj.message?.includes("permission")) {
-          throw new Error("Firestore permission denied. Please sign in with your email address or update your Firebase Rules.");
-        }
-        throw err;
-      }
-    }
-
-    await signInWithEmailAndPassword(auth, targetEmail, pass);
+    await signInWithEmailAndPassword(auth, trimmed, pass);
   };
 
-  // Sign Up with Email, Password & Username
-  const signUpWithEmail = async (email: string, pass: string, usernameInput: string) => {
+  // Sign Up with Email, Password & Display Username
+  const signUpWithEmail = async (emailInput: string, pass: string, usernameInput: string) => {
     const trimmedUsername = usernameInput.trim();
     if (!trimmedUsername) {
-      throw new Error("Please choose a username.");
+      throw new Error("Please enter your username.");
     }
-
-    if (trimmedUsername.length < 3) {
-      throw new Error("Username must be at least 3 characters long.");
-    }
-
-    if (!/^[a-zA-Z0-9_]+$/.test(trimmedUsername)) {
-      throw new Error("Username can only contain letters, numbers, and underscores.");
-    }
-
-    const usernameLower = trimmedUsername.toLowerCase();
-
-    // Check username availability
-    try {
-      const usernameDocRef = doc(db, "usernames", usernameLower);
-      const usernameSnap = await getDoc(usernameDocRef);
-
-      if (usernameSnap.exists()) {
-        throw new Error("This username is already taken. Please choose another.");
-      }
-    } catch (err: unknown) {
-      const errorObj = err as Error;
-      if (errorObj.message && errorObj.message.includes("already taken")) {
-        throw err;
-      }
-    }
+    const trimmedEmail = emailInput.trim();
 
     // Create Firebase Auth user
-    const res = await createUserWithEmailAndPassword(auth, email.trim(), pass);
+    const res = await createUserWithEmailAndPassword(auth, trimmedEmail, pass);
 
-    // Update Auth Profile Display Name & Firestore Docs
+    // Update Auth Profile Display Name & Firestore User Doc
     if (res.user) {
       await updateProfile(res.user, { displayName: trimmedUsername });
       setUsername(trimmedUsername);
 
       try {
-        // Save user doc in Firestore cleanly (only chosen username, no redundant Google/email names)
         await setDoc(
           doc(db, "users", res.user.uid),
           {
-            email: email.trim(),
+            email: trimmedEmail,
             username: trimmedUsername,
-            usernameLower: usernameLower,
             savedResourceIds: [],
             createdAt: serverTimestamp(),
           },
           { merge: true }
         );
-
-        // Reserve unique username mapping in Firestore
-        await setDoc(doc(db, "usernames", usernameLower), {
-          uid: res.user.uid,
-          email: email.trim(),
-          username: trimmedUsername,
-          createdAt: serverTimestamp(),
-        });
       } catch (e) {
         console.warn("Firestore write skipped due to rules:", e);
       }
