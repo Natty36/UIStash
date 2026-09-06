@@ -10,6 +10,21 @@ export const size = {
 
 export const contentType = "image/png";
 
+async function fetchFaviconDataUrl(domainUrl: string) {
+  try {
+    const res = await fetch(`https://www.google.com/s2/favicons?domain=${domainUrl}&sz=128`);
+    if (res.ok) {
+      const arrayBuffer = await res.arrayBuffer();
+      const base64 = Buffer.from(arrayBuffer).toString("base64");
+      const contentType = res.headers.get("content-type") || "image/png";
+      return `data:${contentType};base64,${base64}`;
+    }
+  } catch (e) {
+    console.error("Failed to fetch favicon for", domainUrl, e);
+  }
+  return "";
+}
+
 export default async function Image() {
   let logoDataUrl = "";
   try {
@@ -19,6 +34,13 @@ export default async function Image() {
   } catch (e) {
     console.error("Failed to load logo for OG image:", e);
   }
+
+  // Fetch actual resource favicons in parallel
+  const [shadcnFavicon, framerFavicon, magicFavicon] = await Promise.all([
+    fetchFaviconDataUrl("https://ui.shadcn.com"),
+    fetchFaviconDataUrl("https://framer.com/motion"),
+    fetchFaviconDataUrl("https://magicui.design/"),
+  ]);
 
   return new ImageResponse(
     (
@@ -168,7 +190,7 @@ export default async function Image() {
             Handpicked React UI libraries, animation engines, 3D tools, color palettes, &amp; hosting platforms.
           </div>
 
-          {/* Stats / Metrics Badge Row */}
+          {/* Stats / Metrics Badge Row with Vector Icons */}
           <div
             style={{
               display: "flex",
@@ -176,27 +198,74 @@ export default async function Image() {
               flexWrap: "wrap",
             }}
           >
-            {[
-              "⚡ 50+ Curated Tools",
-              "👨‍🍳 Chef's Choice Picks",
-              "🎨 10 Categories",
-            ].map((stat) => (
-              <div
-                key={stat}
-                style={{
-                  padding: "8px 14px",
-                  backgroundColor: "#121215",
-                  border: "1px solid #27272a",
-                  borderRadius: "8px",
-                  fontSize: "13px",
-                  fontWeight: "bold",
-                  color: "#d4d4d8",
-                  fontFamily: "monospace",
-                }}
-              >
-                {stat}
-              </div>
-            ))}
+            {/* Stat 1: 50+ Curated Tools */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 14px",
+                backgroundColor: "#121215",
+                border: "1px solid #27272a",
+                borderRadius: "8px",
+                fontSize: "13px",
+                fontWeight: "bold",
+                color: "#d4d4d8",
+                fontFamily: "monospace",
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4d4d8" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+              <span>50+ Curated Tools</span>
+            </div>
+
+            {/* Stat 2: Chef's Choice */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 14px",
+                backgroundColor: "#121215",
+                border: "1px solid #27272a",
+                borderRadius: "8px",
+                fontSize: "13px",
+                fontWeight: "bold",
+                color: "#d4d4d8",
+                fontFamily: "monospace",
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6z"/>
+                <line x1="6" y1="17" x2="18" y2="17"/>
+              </svg>
+              <span>Chef&apos;s Choice Picks</span>
+            </div>
+
+            {/* Stat 3: 10 Categories */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 14px",
+                backgroundColor: "#121215",
+                border: "1px solid #27272a",
+                borderRadius: "8px",
+                fontSize: "13px",
+                fontWeight: "bold",
+                color: "#d4d4d8",
+                fontFamily: "monospace",
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4d4d8" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <line x1="3" y1="9" x2="21" y2="9"/>
+                <line x1="9" y1="21" x2="9" y2="9"/>
+              </svg>
+              <span>10 Categories</span>
+            </div>
           </div>
         </div>
 
@@ -207,7 +276,6 @@ export default async function Image() {
             flexDirection: "column",
             gap: "16px",
             width: "520px",
-            zIndex: 10,
           }}
         >
           {/* Mock Card 1: shadcn/ui */}
@@ -242,8 +310,11 @@ export default async function Image() {
               >
                 UI Components &amp; Blocks
               </span>
-              <span
+              <div
                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
                   fontSize: "11px",
                   color: "#f59e0b",
                   backgroundColor: "rgba(245, 158, 11, 0.1)",
@@ -253,8 +324,12 @@ export default async function Image() {
                   fontWeight: "bold",
                 }}
               >
-                👨‍🍳 Chef&apos;s Pick
-              </span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6z"/>
+                  <line x1="6" y1="17" x2="18" y2="17"/>
+                </svg>
+                <span>Chef&apos;s Pick</span>
+              </div>
             </div>
 
             <div
@@ -267,19 +342,28 @@ export default async function Image() {
             >
               <div
                 style={{
-                  width: "28px",
-                  height: "28px",
-                  borderRadius: "6px",
-                  backgroundColor: "#ffffff",
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "8px",
+                  backgroundColor: "#09090b",
+                  border: "1px solid #27272a",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#000000",
-                  fontWeight: "bold",
-                  fontSize: "14px",
+                  overflow: "hidden",
+                  padding: "4px",
                 }}
               >
-                cn
+                {shadcnFavicon ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={shadcnFavicon}
+                    alt="shadcn/ui icon"
+                    style={{ width: "22px", height: "22px", objectFit: "contain" }}
+                  />
+                ) : (
+                  <span style={{ fontSize: "14px", fontWeight: "bold", color: "#ffffff" }}>cn</span>
+                )}
               </div>
               <span
                 style={{
@@ -354,8 +438,11 @@ export default async function Image() {
               >
                 Animations &amp; 3D
               </span>
-              <span
+              <div
                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
                   fontSize: "11px",
                   color: "#3b82f6",
                   backgroundColor: "rgba(59, 130, 246, 0.1)",
@@ -364,8 +451,11 @@ export default async function Image() {
                   borderRadius: "6px",
                 }}
               >
-                🔥 Trending
-              </span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3.5z"/>
+                </svg>
+                <span>Trending</span>
+              </div>
             </div>
 
             <div
@@ -378,19 +468,28 @@ export default async function Image() {
             >
               <div
                 style={{
-                  width: "28px",
-                  height: "28px",
-                  borderRadius: "6px",
-                  backgroundColor: "#0055FF",
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "8px",
+                  backgroundColor: "#09090b",
+                  border: "1px solid #27272a",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#ffffff",
-                  fontWeight: "bold",
-                  fontSize: "14px",
+                  overflow: "hidden",
+                  padding: "4px",
                 }}
               >
-                F
+                {framerFavicon ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={framerFavicon}
+                    alt="Framer Motion icon"
+                    style={{ width: "22px", height: "22px", objectFit: "contain" }}
+                  />
+                ) : (
+                  <span style={{ fontSize: "14px", fontWeight: "bold", color: "#0055FF" }}>F</span>
+                )}
               </div>
               <span
                 style={{
@@ -437,19 +536,28 @@ export default async function Image() {
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <div
                   style={{
-                    width: "24px",
-                    height: "24px",
-                    borderRadius: "6px",
-                    backgroundColor: "#a855f7",
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "8px",
+                    backgroundColor: "#09090b",
+                    border: "1px solid #27272a",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#ffffff",
-                    fontWeight: "bold",
-                    fontSize: "12px",
+                    overflow: "hidden",
+                    padding: "4px",
                   }}
                 >
-                  M
+                  {magicFavicon ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={magicFavicon}
+                      alt="Magic UI icon"
+                      style={{ width: "22px", height: "22px", objectFit: "contain" }}
+                    />
+                  ) : (
+                    <span style={{ fontSize: "14px", fontWeight: "bold", color: "#a855f7" }}>M</span>
+                  )}
                 </div>
                 <span
                   style={{
