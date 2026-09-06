@@ -15,6 +15,8 @@ import {
   Heart,
   LogOut,
   ChefHat,
+  ChevronDown,
+  Filter,
 } from "lucide-react";
 import { resourcesData, categories } from "@/data/resources";
 import { AuthModal } from "@/components/AuthModal";
@@ -55,7 +57,20 @@ export default function Home() {
     return [];
   });
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const categoryDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close category dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(e.target as Node)) {
+        setIsCategoryDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Sync local guest bookmarks to Firestore when user logs in
   useEffect(() => {
@@ -188,15 +203,15 @@ export default function Home() {
           {/* Right Action Controls + Compact Search */}
           <div className="flex items-center gap-2.5 shrink-0 ml-auto">
             {/* Search Input */}
-            <div className="relative group w-36 sm:w-56">
+            <div className="relative group w-32 xs:w-36 sm:w-56">
               <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
                 <Search className="h-3.5 w-3.5 text-zinc-500 group-focus-within:text-zinc-200 transition-colors" />
               </div>
               <input
                 ref={searchInputRef}
                 type="text"
-                placeholder="Search tools..."
-                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-md py-1.5 pl-8 pr-7 text-xs font-mono focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:border-zinc-500 transition-all placeholder:text-zinc-500 text-zinc-200"
+                placeholder="Search..."
+                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-md py-1.5 pl-8 pr-7 text-xs font-mono focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:border-zinc-500 transition-all placeholder:text-zinc-500 text-zinc-200 truncate"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -266,9 +281,104 @@ export default function Home() {
       </nav>
 
       {/* Main Content Layout */}
-      <div className="container mx-auto px-4 flex-1 flex flex-col md:flex-row py-8 gap-8">
-        {/* Sidebar */}
-        <aside className="w-full md:w-64 flex-shrink-0">
+      <div className="container mx-auto px-4 flex-1 flex flex-col md:flex-row py-6 md:py-8 gap-6 md:gap-8">
+        {/* Mobile Filter Bar with Category Dropdown (Visible on mobile screens) */}
+        <div className="md:hidden flex items-center justify-between gap-2 pb-2">
+          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5">
+            <button
+              onClick={() => { setActiveFilter("All"); setActiveCategory("All"); setSearchQuery(""); }}
+              className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono border transition-all active:scale-95 ${
+                activeFilter === "All" && activeCategory === "All"
+                  ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold shadow-sm'
+                  : 'bg-zinc-900/90 text-zinc-400 border-zinc-800 hover:text-zinc-200'
+              }`}
+            >
+              <Compass className="h-3.5 w-3.5" />
+              All
+            </button>
+            <button
+              onClick={() => { setActiveFilter("ChefsChoice"); setActiveCategory("All"); }}
+              className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono border transition-all active:scale-95 ${
+                activeFilter === "ChefsChoice"
+                  ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold shadow-sm'
+                  : 'bg-zinc-900/90 text-zinc-400 border-zinc-800 hover:text-zinc-200'
+              }`}
+            >
+              <ChefHat className="h-3.5 w-3.5" />
+              Chef&apos;s Pick
+            </button>
+          </div>
+
+          {/* Category Dropdown Trigger & Floating Menu */}
+          <div className="relative shrink-0" ref={categoryDropdownRef}>
+            <button
+              onClick={() => setIsCategoryDropdownOpen((prev) => !prev)}
+              className={`w-28 xs:w-32 flex items-center justify-between gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono border transition-all active:scale-95 ${
+                activeCategory !== "All"
+                  ? "bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold shadow-sm"
+                  : "bg-zinc-900/90 text-zinc-400 border-zinc-800 hover:text-zinc-200"
+              }`}
+            >
+              <div className="flex items-center gap-1.5 min-w-0">
+                <Filter className="h-3.5 w-3.5 shrink-0" />
+                <span className="truncate">
+                  {activeCategory === "All" ? "Category" : activeCategory}
+                </span>
+              </div>
+              <ChevronDown className={`h-3.5 w-3.5 shrink-0 transition-transform duration-200 ${isCategoryDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {/* Dropdown Menu */}
+            <AnimatePresence>
+              {isCategoryDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 mt-2 w-64 max-h-72 overflow-y-auto bg-zinc-950 border border-zinc-800 rounded-xl shadow-2xl p-1.5 z-50 font-mono scrollbar-thin"
+                >
+                  <button
+                    onClick={() => {
+                      setActiveCategory("All");
+                      setIsCategoryDropdownOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
+                      activeCategory === "All"
+                        ? "bg-zinc-800 text-zinc-100 font-semibold"
+                        : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900"
+                    }`}
+                  >
+                    <span>All Categories</span>
+                    {activeCategory === "All" && <Check className="h-3.5 w-3.5 text-zinc-200" />}
+                  </button>
+                  <div className="h-[1px] bg-zinc-800/80 my-1" />
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setActiveCategory(cat);
+                        if (activeFilter !== "All") setActiveFilter("All");
+                        setIsCategoryDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
+                        activeCategory === cat
+                          ? "bg-zinc-800 text-zinc-100 font-semibold"
+                          : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900"
+                      }`}
+                    >
+                      <span className="truncate">{cat}</span>
+                      {activeCategory === cat && <Check className="h-3.5 w-3.5 text-zinc-200 shrink-0 ml-2" />}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Desktop Sidebar (Visible on md+ screens) */}
+        <aside className="hidden md:block w-64 flex-shrink-0">
           <div className="sticky top-24 space-y-8">
             <div>
               <h3 className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-3 px-1">Discover</h3>
@@ -283,22 +393,6 @@ export default function Home() {
                 >
                   <Compass className={`h-4 w-4 ${activeFilter === "All" && activeCategory === "All" ? 'text-zinc-200' : 'text-zinc-500'}`} />
                   All Resources
-                </button>
-                <button
-                  onClick={() => { setActiveFilter("Saved"); setActiveCategory("All"); }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-mono transition-colors ${
-                    activeFilter === "Saved"
-                      ? 'bg-zinc-800/80 text-foreground border border-zinc-700/60'
-                      : 'text-zinc-400 hover:text-foreground hover:bg-zinc-900/60'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <Bookmark className={`h-4 w-4 ${activeFilter === "Saved" ? 'text-zinc-200 fill-zinc-200/20' : 'text-zinc-500'}`} />
-                    <span>Saved</span>
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-zinc-800 bg-zinc-900 text-zinc-400">
-                    {savedItems.length}
-                  </span>
                 </button>
                 <button
                   onClick={() => { setActiveFilter("ChefsChoice"); setActiveCategory("All"); }}
@@ -483,8 +577,7 @@ export default function Home() {
             <span>for developers & designers.</span>
           </p>
           <div className="flex items-center gap-6 text-xs font-mono text-zinc-500">
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Twitter</a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">GitHub</a>
+            <a href="https://github.com/Natty36" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">GitHub</a>
           </div>
         </div>
       </footer>
