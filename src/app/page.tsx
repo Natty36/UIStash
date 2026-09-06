@@ -14,17 +14,55 @@ import {
   Trash2,
   Heart,
   Sparkles,
+  LogOut,
 } from "lucide-react";
 import { resourcesData, categories } from "@/data/resources";
-import { LoginModal } from "@/components/LoginModal";
+import { AuthModal } from "@/components/AuthModal";
+import { useAuth } from "@/context/AuthContext";
+import { toggleSaveResource, getSavedResourceIds } from "@/lib/savedResources";
 
 export default function Home() {
+  const { user, logout, savedIds, toggleSave: toggleSaveFirestore } = useAuth();
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeFilter, setActiveFilter] = useState<"All" | "Saved" | "ChefsChoice">("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [savedItems, setSavedItems] = useState<number[]>([]);
+  const [localSavedItems, setLocalSavedItems] = useState<number[]>([]);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Load initial local saved items from localStorage for unauthenticated users
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("uistash_saved_items");
+      if (stored) {
+        setLocalSavedItems(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.error("Failed to parse local saved items", e);
+    }
+  }, []);
+
+  // Sync local guest bookmarks to Firestore when user logs in
+  useEffect(() => {
+    if (user && localSavedItems.length > 0) {
+      localSavedItems.forEach((id) => {
+        if (!savedIds.includes(id)) {
+          toggleSaveFirestore(id);
+        }
+      });
+      setLocalSavedItems([]);
+      try {
+        localStorage.removeItem("uistash_saved_items");
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, [user, localSavedItems, savedIds, toggleSaveFirestore]);
+
+  // Use real-time Firestore savedIds when logged in, or local saved items when logged out
+  const savedItems = useMemo(() => {
+    return user ? savedIds : localSavedItems;
+  }, [user, savedIds, localSavedItems]);
 
   // Keyboard shortcut listener for '/' and Cmd+K / Ctrl+K
   useEffect(() => {
@@ -86,10 +124,20 @@ export default function Home() {
     return resourcesData.filter((item) => savedItems.includes(item.id));
   }, [savedItems]);
 
-  const toggleSave = (id: number) => {
-    setSavedItems((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+  const toggleSave = async (id: number) => {
+    if (user) {
+      await toggleSaveFirestore(id);
+    } else {
+      setLocalSavedItems((prev) => {
+        const next = prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id];
+        try {
+          localStorage.setItem("uistash_saved_items", JSON.stringify(next));
+        } catch (e) {
+          console.error(e);
+        }
+        return next;
+      });
+    }
   };
 
   const containerVariants = {
@@ -167,15 +215,42 @@ export default function Home() {
               <span className="hidden sm:inline">Saved ({savedItems.length})</span>
             </button>
 
-            {/* Sign In Button */}
-            <button
-              onClick={() => setIsLoginModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-zinc-200 transition-all active:scale-95"
-              title="Sign In"
-            >
-              <User className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Sign In</span>
-            </button>
+            {/* Auth Buttons / State */}
+            {user ? (
+              <div className="flex items-center gap-2">
+                <div
+                  className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs font-mono border border-zinc-800 bg-zinc-900/60 text-zinc-300"
+                  title={user.email || undefined}
+                >
+                  {user.photoURL ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={user.photoURL} alt="Avatar" className="w-4 h-4 rounded-full object-cover" />
+                  ) : (
+                    <User className="h-3.5 w-3.5 text-zinc-400" />
+                  )}
+                  <span className="max-w-[100px] sm:max-w-[140px] truncate font-medium">
+                    {user.displayName || user.email?.split("@")[0] || "Account"}
+                  </span>
+                </div>
+                <button
+                  onClick={() => logout()}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-mono border border-zinc-800 bg-zinc-900/50 hover:bg-red-500/10 hover:border-red-500/30 text-zinc-400 hover:text-red-400 transition-all active:scale-95"
+                  title="Log Out"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Logout</span>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsLoginModalOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-zinc-200 transition-all active:scale-95"
+                title="Sign In"
+              >
+                <User className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Sign In</span>
+              </button>
+            )}
           </div>
         </div>
       </nav>
@@ -476,8 +551,8 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Login Modal */}
-      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+      {/* Auth Modal */}
+      <AuthModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </div>
   );
 }
