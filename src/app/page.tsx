@@ -22,7 +22,7 @@ import { useAuth } from "@/context/AuthContext";
 import { toggleSaveResource, getSavedResourceIds } from "@/lib/savedResources";
 
 export default function Home() {
-  const { user, logout, savedIds, toggleSave: toggleSaveFirestore } = useAuth();
+  const { user, username, logout, savedIds, toggleSave: toggleSaveFirestore } = useAuth();
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeFilter, setActiveFilter] = useState<"All" | "Saved" | "ChefsChoice">("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -229,7 +229,7 @@ export default function Home() {
                     <User className="h-3.5 w-3.5 text-zinc-400" />
                   )}
                   <span className="max-w-[100px] sm:max-w-[140px] truncate font-medium">
-                    {user.displayName || user.email?.split("@")[0] || "Account"}
+                    {username || user.displayName || user.email?.split("@")[0] || "Account"}
                   </span>
                 </div>
                 <button

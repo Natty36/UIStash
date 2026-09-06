@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Mail, Lock, User as UserIcon, ArrowRight, Check, Loader2, AlertCircle } from "lucide-react";
+import { X, Mail, Lock, User as UserIcon, ArrowRight, Check, Loader2, AlertCircle, AtSign } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { signInWithGoogle, signInWithGithub, signInWithEmail, signUpWithEmail } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
+  const [identifier, setIdentifier] = useState(""); // Email or Username for Sign In
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -26,7 +28,7 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  // Reset form when modal visibility changes
+  // Reset form state when modal opens/closes
   useEffect(() => {
     if (!isOpen) {
       setError("");
@@ -37,14 +39,9 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
   if (!isOpen) return null;
 
-  const handleEmailSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
-    if (!email || !password) {
-      setError("Please fill in all required fields.");
-      return;
-    }
 
     if (password.length < 6) {
       setError("Password must be at least 6 characters.");
@@ -55,15 +52,27 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
     try {
       if (isSignUp) {
-        await signUpWithEmail(email, password);
+        if (!username.trim() || !email.trim()) {
+          setError("Please fill in both username and email.");
+          setIsLoading(false);
+          return;
+        }
+        await signUpWithEmail(email, password, username);
       } else {
-        await signInWithEmail(email, password);
+        if (!identifier.trim()) {
+          setError("Please enter your email or username.");
+          setIsLoading(false);
+          return;
+        }
+        await signInWithEmail(identifier, password);
       }
       setIsSuccess(true);
       setTimeout(() => {
         setIsSuccess(false);
         onClose();
         setEmail("");
+        setUsername("");
+        setIdentifier("");
         setPassword("");
       }, 800);
     } catch (err: any) {
@@ -125,10 +134,14 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
           {/* Modal Card */}
           <motion.div
+            layout
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            transition={{ type: "spring", duration: 0.4, bounce: 0.2 }}
+            transition={{
+              layout: { type: "spring", stiffness: 350, damping: 32 },
+              duration: 0.25,
+            }}
             className="relative w-full max-w-md bg-zinc-950 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden z-10 font-mono"
           >
             {/* Top Bar Gradient */}
@@ -244,7 +257,7 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               <div className="relative flex items-center justify-center mb-6">
                 <div className="border-t border-zinc-800/80 w-full" />
                 <span className="bg-zinc-950 px-3 text-[10px] text-zinc-500 uppercase tracking-widest absolute">
-                  or with email
+                  or continue with
                 </span>
               </div>
 
@@ -261,24 +274,77 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               )}
 
               {/* Form */}
-              <form onSubmit={handleEmailSubmit} className="space-y-4">
-                <div className="space-y-1.5">
-                  <label className="text-[11px] text-zinc-400 font-mono font-medium">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                    <input
-                      type="email"
-                      placeholder="name@example.com"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-400 focus:border-zinc-400 transition-all font-mono"
-                    />
-                  </div>
-                </div>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={isSignUp ? "signup-fields" : "signin-fields"}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.15, ease: "easeInOut" }}
+                    className="space-y-4"
+                  >
+                    {isSignUp ? (
+                      <>
+                        {/* Username Field */}
+                        <div className="space-y-1.5">
+                          <label className="text-[11px] text-zinc-400 font-mono font-medium">
+                            Username
+                          </label>
+                          <div className="relative">
+                            <AtSign className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                            <input
+                              type="text"
+                              placeholder="johndoe"
+                              required
+                              value={username}
+                              onChange={(e) => setUsername(e.target.value)}
+                              className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-400 focus:border-zinc-400 transition-all font-mono"
+                            />
+                          </div>
+                        </div>
 
+                        {/* Email Field */}
+                        <div className="space-y-1.5">
+                          <label className="text-[11px] text-zinc-400 font-mono font-medium">
+                            Email Address
+                          </label>
+                          <div className="relative">
+                            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                            <input
+                              type="email"
+                              placeholder="name@example.com"
+                              required
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-400 focus:border-zinc-400 transition-all font-mono"
+                            />
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      /* Identifier (Email or Username) Field */
+                      <div className="space-y-1.5">
+                        <label className="text-[11px] text-zinc-400 font-mono font-medium">
+                          Email or Username
+                        </label>
+                        <div className="relative">
+                          <UserIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                          <input
+                            type="text"
+                            placeholder="name@example.com or username"
+                            required
+                            value={identifier}
+                            onChange={(e) => setIdentifier(e.target.value)}
+                            className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-400 focus:border-zinc-400 transition-all font-mono"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Password Field */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
                     <label className="text-[11px] text-zinc-400 font-mono font-medium">
@@ -340,13 +406,6 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 >
                   {isSignUp ? "Sign In" : "Sign Up"}
                 </button>
-              </p>
-            </div>
-
-            {/* Footer Note */}
-            <div className="py-3.5 px-6 bg-zinc-900/40 border-t border-zinc-800/80 text-center">
-              <p className="text-[10px] text-zinc-500 font-mono">
-                By continuing, you agree to UIStash Terms of Service & Privacy Policy.
               </p>
             </div>
           </motion.div>
