@@ -19,7 +19,24 @@ import {
 import { resourcesData, categories } from "@/data/resources";
 import { AuthModal } from "@/components/AuthModal";
 import { useAuth } from "@/context/AuthContext";
-import { toggleSaveResource, getSavedResourceIds } from "@/lib/savedResources";
+function UserAvatar({ photoURL }: { photoURL?: string | null }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (!photoURL || hasError) {
+    return <User className="h-3.5 w-3.5 text-zinc-400 shrink-0" />;
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={photoURL}
+      alt="Avatar"
+      className="w-4 h-4 rounded-full object-cover shrink-0 border border-zinc-700/50"
+      referrerPolicy="no-referrer"
+      onError={() => setHasError(true)}
+    />
+  );
+}
 
 export default function Home() {
   const { user, username, logout, savedIds, toggleSave: toggleSaveFirestore } = useAuth();
@@ -222,14 +239,9 @@ export default function Home() {
                   className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs font-mono border border-zinc-800 bg-zinc-900/60 text-zinc-300"
                   title={user.email || undefined}
                 >
-                  {user.photoURL ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={user.photoURL} alt="Avatar" className="w-4 h-4 rounded-full object-cover" />
-                  ) : (
-                    <User className="h-3.5 w-3.5 text-zinc-400" />
-                  )}
+                  <UserAvatar photoURL={user.photoURL} />
                   <span className="max-w-[100px] sm:max-w-[140px] truncate font-medium">
-                    {username || user.displayName || user.email?.split("@")[0] || "Account"}
+                    {(username || user.displayName || user.email?.split("@")[0] || "Account").trim().split(/\s+/)[0]}
                   </span>
                 </div>
                 <button

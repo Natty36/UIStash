@@ -34,6 +34,7 @@ type AuthContextType = {
   signInWithGithub: () => Promise<void>;
   signInWithEmail: (identifier: string, pass: string) => Promise<void>;
   signUpWithEmail: (email: string, pass: string, username: string) => Promise<void>;
+  checkUsernameAvailable: (usernameInput: string) => Promise<boolean>;
   logout: () => Promise<void>;
   toggleSave: (resourceId: number) => Promise<void>;
 };
@@ -59,14 +60,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => unsubscribeAuth();
   }, []);
 
-  // 2. Real-time sync with user's Firestore doc (with safety error callback)
+  // 2. Real-time sync with user's Firestore doc
   useEffect(() => {
     if (!user) return;
 
-    // Set fallback username immediately from Auth profile or email
-    const initialFallbackUsername =
-      user.displayName || user.email?.split("@")[0] || `user_${user.uid.slice(0, 5)}`;
-    setUsername(initialFallbackUsername);
+    // Helper to get first name only from full name or email
+    const getFirstName = (name?: string | null, email?: string | null) => {
+      if (name && name.trim()) {
+        const parts = name.trim().split(/\s+/);
+        return parts[0];
+      }
+      if (email && email.includes("@")) {
+        const prefix = email.split("@")[0];
+        return prefix.includes(".") ? prefix.split(".")[0] : prefix;
+      }
+      return "User";
+    };
+
+    const initialFirstName = getFirstName(user.displayName, user.email);
+    setUsername(initialFirstName);
 
     const userDocRef = doc(db, "users", user.uid);
     const unsubscribeSnapshot = onSnapshot(
@@ -76,15 +88,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const data = snap.data();
           setSavedIds(data.savedResourceIds || []);
           if (data.username || data.displayName) {
-            setUsername(data.username || data.displayName);
+            const rawName = data.username || data.displayName;
+            setUsername(getFirstName(rawName, user.email));
           }
         } else {
           // Initialize doc on first login (e.g. Google / GitHub)
-          const defaultUsername =
-            user.displayName?.replace(/\s+/g, "").toLowerCase() ||
-            user.email?.split("@")[0] ||
-            `user_${user.uid.slice(0, 5)}`;
-
+          const firstName = getFirstName(user.displayName, user.email);
+          const defaultUsername = firstName.toLowerCase();
           const usernameLower = defaultUsername.toLowerCase();
 
           try {
@@ -92,9 +102,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               userDocRef,
               {
                 email: user.email || "",
-                displayName: user.displayName || defaultUsername,
+                displayName: firstName,
                 username: defaultUsername,
                 usernameLower: usernameLower,
+                photoURL: user.photoURL || "",
                 savedResourceIds: [],
                 createdAt: serverTimestamp(),
               },
@@ -113,16 +124,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               });
             }
           } catch (e) {
-            console.warn("Firestore rules warning (Initialize Firestore in Firebase Console):", e);
+            console.warn("Firestore rules warning:", e);
           }
 
-          setUsername(defaultUsername);
+          setUsername(firstName);
         }
         setLoading(false);
       },
       (error) => {
-        // Quietly suppress snapshot permission errors so Auth works seamlessly
-        console.warn("Firestore Snapshot Permission Warning (Update rules in Firebase Console):", error.message);
+        console.warn("Firestore Snapshot Permission Warning:", error.message);
         setLoading(false);
       }
     );
@@ -137,6 +147,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signInWithGithub = async () => {
     await signInWithPopup(auth, githubProvider);
+  };
+
+  // Helper to check if username is available in Firestore
+  const checkUsernameAvailable = async (usernameInput: string): Promise<boolean> => {
+    const trimmed = usernameInput.trim();
+    if (!trimmed || trimmed.length < 3 || !/^[a-zA-Z0-9_]+$/.test(trimmed)) {
+      return false;
+    }
+    const usernameLower = trimmed.toLowerCase();
+    try {
+      const usernameDocRef = doc(db, "usernames", usernameLower);
+      const usernameSnap = await getDoc(usernameDocRef);
+      if (usernameSnap.exists()) {
+        return false;
+      }
+      const q = query(collection(db, "users"), where("usernameLower", "==", usernameLower));
+      const querySnap = await getDocs(q);
+      return querySnap.empty;
+    } catch (e) {
+      console.warn("Username availability check warning:", e);
+      return true;
+    }
   };
 
   // Sign In using Email OR Username
@@ -198,7 +230,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const usernameLower = trimmedUsername.toLowerCase();
 
-    // Check username availability if permission allows
+    // Check username availability
     try {
       const usernameDocRef = doc(db, "usernames", usernameLower);
       const usernameSnap = await getDoc(usernameDocRef);
@@ -210,7 +242,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (err.message && err.message.includes("already taken")) {
         throw err;
       }
-      console.warn("Skipping username pre-check (Firestore rules restricted):", err);
     }
 
     // Create Firebase Auth user
@@ -270,7 +301,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         { merge: true }
       );
     } catch (error) {
-      console.warn("Failed to update bookmark in Firestore (Check Firebase Rules):", error);
+      console.warn("Failed to update bookmark in Firestore:", error);
     }
   };
 
@@ -285,6 +316,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signInWithGithub,
         signInWithEmail,
         signUpWithEmail,
+        checkUsernameAvailable,
         logout,
         toggleSave,
       }}

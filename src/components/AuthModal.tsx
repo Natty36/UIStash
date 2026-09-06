@@ -6,7 +6,7 @@ import { X, Mail, Lock, User as UserIcon, ArrowRight, Check, Loader2, AlertCircl
 import { useAuth } from "@/context/AuthContext";
 
 export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const { signInWithGoogle, signInWithGithub, signInWithEmail, signUpWithEmail } = useAuth();
+  const { signInWithGoogle, signInWithGithub, signInWithEmail, signUpWithEmail, checkUsernameAvailable } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [identifier, setIdentifier] = useState(""); // Email or Username for Sign In
   const [email, setEmail] = useState("");
@@ -16,6 +16,9 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  // Username live availability checking state
+  const [usernameStatus, setUsernameStatus] = useState<"idle" | "checking" | "available" | "taken" | "invalid">("idle");
 
   // Handle ESC key press
   useEffect(() => {
@@ -34,8 +37,35 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
       setError("");
       setIsLoading(false);
       setIsSuccess(false);
+      setUsernameStatus("idle");
     }
   }, [isOpen]);
+
+  // Live username availability debounced check
+  useEffect(() => {
+    if (!isSignUp || !username.trim()) {
+      setUsernameStatus("idle");
+      return;
+    }
+
+    const trimmed = username.trim();
+    if (trimmed.length < 3 || !/^[a-zA-Z0-9_]+$/.test(trimmed)) {
+      setUsernameStatus("invalid");
+      return;
+    }
+
+    setUsernameStatus("checking");
+    const timer = setTimeout(async () => {
+      try {
+        const isAvailable = await checkUsernameAvailable(trimmed);
+        setUsernameStatus(isAvailable ? "available" : "taken");
+      } catch {
+        setUsernameStatus("idle");
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [username, isSignUp, checkUsernameAvailable]);
 
   if (!isOpen) return null;
 
@@ -45,6 +75,11 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
     if (password.length < 6) {
       setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (isSignUp && usernameStatus === "taken") {
+      setError("That username is already taken. Please choose another.");
       return;
     }
 
@@ -288,9 +323,31 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                       <>
                         {/* Username Field */}
                         <div className="space-y-1.5">
-                          <label className="text-[11px] text-zinc-400 font-mono font-medium">
-                            Username
-                          </label>
+                          <div className="flex items-center justify-between">
+                            <label className="text-[11px] text-zinc-400 font-mono font-medium">
+                              Username
+                            </label>
+                            {usernameStatus === "checking" && (
+                              <span className="text-[10px] text-zinc-400 font-mono flex items-center gap-1">
+                                <Loader2 className="w-3 h-3 animate-spin" /> Checking...
+                              </span>
+                            )}
+                            {usernameStatus === "available" && (
+                              <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
+                                <Check className="w-3 h-3 text-emerald-400" /> Available
+                              </span>
+                            )}
+                            {usernameStatus === "taken" && (
+                              <span className="text-[10px] text-red-400 font-mono flex items-center gap-1">
+                                <X className="w-3 h-3 text-red-400" /> Already taken
+                              </span>
+                            )}
+                            {usernameStatus === "invalid" && username.length > 0 && (
+                              <span className="text-[10px] text-zinc-500 font-mono">
+                                Min 3 chars (letters, numbers, _)
+                              </span>
+                            )}
+                          </div>
                           <div className="relative">
                             <AtSign className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
                             <input
@@ -299,7 +356,13 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                               required
                               value={username}
                               onChange={(e) => setUsername(e.target.value)}
-                              className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-400 focus:border-zinc-400 transition-all font-mono"
+                              className={`w-full bg-zinc-900/60 border rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none transition-all font-mono ${
+                                usernameStatus === "taken"
+                                  ? "border-red-500/60 focus:border-red-500"
+                                  : usernameStatus === "available"
+                                  ? "border-emerald-500/60 focus:border-emerald-500"
+                                  : "border-zinc-800 focus:border-zinc-400"
+                              }`}
                             />
                           </div>
                         </div>
@@ -374,7 +437,7 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 {/* Primary Action Button */}
                 <button
                   type="submit"
-                  disabled={isLoading || isSuccess}
+                  disabled={isLoading || isSuccess || (isSignUp && usernameStatus === "taken")}
                   className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 px-4 bg-zinc-100 hover:bg-white text-zinc-950 font-semibold rounded-xl text-xs transition-all duration-200 shadow-md active:scale-[0.98] disabled:opacity-80 disabled:cursor-not-allowed font-mono"
                 >
                   {isLoading ? (
