@@ -33,9 +33,9 @@ export const resourcesData: Resource[] = [
   { id: 135, title: "21st.dev", desc: "The npm for Design Engineers. Discover and share copy-paste UI components.", url: "https://21st.dev/", category: "UI Components & Blocks", tags: ["Marketplace", "React", "Tailwind"], trending: true, newRelease: true, chefsChoice: true },
   { id: 132, title: "DaisyUI", desc: "The most popular, free and open-source Tailwind CSS component library.", url: "https://daisyui.com/", category: "UI Components & Blocks", tags: ["Tailwind", "CSS", "Components"] },
   { id: 139, title: "Cult UI", desc: "Curated components and interactive elements for modern design engineers.", url: "https://www.cult-ui.com/", category: "UI Components & Blocks", tags: ["React", "Tailwind", "Motion"] },
+  { id: 140, title: "Animate UI", desc: "A collection of animated React components, buttons, and micro-interactions.", url: "https://animate-ui.com/", category: "UI Components & Blocks", tags: ["Animation", "React", "Tailwind"] },
   { id: 33, title: "Aceternity UI", desc: "Copy paste the most trending components and use them in your websites.", url: "https://ui.aceternity.com/", category: "UI Components & Blocks", tags: ["UI", "Tailwind", "Components"], trending: true },
   { id: 138, title: "Motion Primitives", desc: "Advanced interactive UI components crafted with Framer Motion and Tailwind.", url: "https://motion-primitives.com/", category: "UI Components & Blocks", tags: ["Motion", "React", "Tailwind"], trending: true, newRelease: true },
-  { id: 140, title: "Animate UI", desc: "A collection of animated React components, buttons, and micro-interactions.", url: "https://animate-ui.com/", category: "UI Components & Blocks", tags: ["Animation", "React", "Tailwind"] },
 
   // --- Animations & 3D ---
   { id: 3, title: "Framer Motion", desc: "Production-ready declarative animations for React.", url: "https://framer.com/motion", category: "Animations & 3D", tags: ["Animation", "React"], chefsChoice: true },
